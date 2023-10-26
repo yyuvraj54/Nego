@@ -61,7 +61,7 @@
             android:textFontWeight="800" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/emailET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -82,7 +82,7 @@
             android:textFontWeight="800" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/passwordET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -107,7 +107,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"

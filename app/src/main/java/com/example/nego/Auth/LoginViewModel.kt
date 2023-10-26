@@ -2,6 +2,9 @@ package com.example.nego.Auth
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.nego.Repository.UserRepository
 import com.example.nego.Responses.LoginResponse
 import com.example.nego.Retrofit.RetrofitClient
 import com.example.nego.SharedPrefsUtil
@@ -12,6 +15,7 @@ import retrofit2.Response
 
 class LoginViewModel (application: Application) : AndroidViewModel(application) {
     private val sharedPrefsUtil = SharedPrefsUtil(application)
+    private val userRepository = UserRepository()
     fun saveLoginData(username: String, password: String) {
         sharedPrefsUtil.saveUserInfo(username, password)
         sharedPrefsUtil.saveLoginStatus(true)
@@ -25,28 +29,8 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         sharedPrefsUtil.clearLoginInfo()
     }
 
-    fun login(email: String, password: String) {
-        val apiService = RetrofitClient.apiService
-        val requestObject = JsonObject()
-        requestObject.addProperty("email", email)
-        requestObject.addProperty("password", password)
-
-        val call = apiService.login(requestObject)
-
-        call.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if (response.isSuccessful) {
-                    val loginResponse = response.body()
-
-                } else {
-                    // Handle unsuccessful response
-                }
-            }
-
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                // Handle failure
-            }
-        })
+    fun login(email: String, password: String): MutableLiveData<LoginResponse?> {
+        return userRepository.startLogin(email, password)
     }
 
 }

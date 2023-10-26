@@ -10,6 +10,4 @@ interface ApiService {
 
     @POST("login")
     fun login(@Body request: JsonObject): Call<LoginResponse>
-
-
 }
