@@ -29,8 +29,8 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         sharedPrefsUtil.clearLoginInfo()
     }
 
-    fun login(email: String, password: String): MutableLiveData<LoginResponse?> {
-        return userRepository.startLogin(email, password)
+    fun login(email: String, password: String): LiveData<LoginResponse?> {
+        return userRepository.startLogin(email, password);
     }
 
 }
