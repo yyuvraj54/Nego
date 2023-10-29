@@ -33,6 +33,11 @@ class login : AppCompatActivity() {
         }
 
 
+        binding.signupPage.setOnClickListener {
+            val intent= Intent(this , signup::class.java);
+            startActivity(intent);
+        }
+
 
 
         binding.loginbtn.setOnClickListener {

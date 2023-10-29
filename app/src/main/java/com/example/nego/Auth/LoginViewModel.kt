@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.nego.Repository.UserRepository
 import com.example.nego.Responses.LoginResponse
+import com.example.nego.Responses.SignupSuccess
 import com.example.nego.Retrofit.RetrofitClient
 import com.example.nego.SharedPrefsUtil
 import com.google.gson.JsonObject
@@ -32,6 +33,12 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
     fun login(email: String, password: String): LiveData<LoginResponse?> {
         return userRepository.startLogin(email, password);
     }
+
+
+    fun signup(name:String,email: String, password: String): LiveData<SignupSuccess> {
+        return userRepository.startSignup(name,email, password);
+    }
+
 
 }
 
