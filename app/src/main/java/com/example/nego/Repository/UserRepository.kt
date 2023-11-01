@@ -23,52 +23,48 @@ import retrofit2.Response
 import kotlin.math.log
 
 class UserRepository {
-    fun  startLogin(email: String, password: String): LiveData<LoginResponse?> {
+    fun  startLogin(email: String, password: String): LiveData<ResponseBody?> {
         val userlogin = loginUser(email, password);
-        val loginResponse=MutableLiveData<LoginResponse>();
+        val loginResponse=MutableLiveData<ResponseBody>();
         Log.d(TAG, "startLogin: "+userlogin.toString());
         Log.d(TAG, "startLogin: "+email+password);
-        RetrofitClient.apiService.login(userlogin)?.enqueue(object :Callback<LoginResponse?>{
+        RetrofitClient.apiService.login(userlogin)?.enqueue(object :Callback<ResponseBody?>{
             override fun onResponse(
-                call: Call<LoginResponse?>,
-                response: Response<LoginResponse?>
+                call: Call<ResponseBody?>,
+                response: Response<ResponseBody?>
             ) {
-                Log.d("LoginIn", response.message()+" "+response.code())
-                if (response.code().toString() == "200") {
-                    val gotResponse = response.body()
-                    loginResponse.value=response.body();
-                    Log.d("LoginIn", "${response.body().toString()}")
-                    if (gotResponse != null) {
+                loginResponse.value=response.body();
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
 
-
-                        val status = gotResponse.success
-                        val email = gotResponse.existingUser.email
-                        val name = gotResponse.existingUser.name
-
-                        if (status == "True") {
-
-//                            Log.d(TAG, "status:" + status)
-//                            Log.d(TAG, "email:" + email)
-//                            Log.d(TAG, "name:" + name)
-//                            Log.d(TAG, "login Status: Login Sucess")
-                        } else {Log.d(TAG, "login Status: Wrong ID PASSWORD") }
-
+                    // Process the response body here
+                    if (responseBody != null) {
+                        val responseString = responseBody.string()
+                        val loginResponse_ = Gson().fromJson(responseString, LoginResponse.LoginResponseSuccess::class.java)
+                        // Handle the success response here
+                        Log.d(TAG, "Signup Status: ${loginResponse_.message}")
+                        val status = loginResponse_.success
+                        val email = loginResponse_.existingUser.email
+                        val name = loginResponse_.existingUser.name
                     }
-
-                } else if (response.code().toString() == "400") {
-                    Log.d(TAG, "login Status: Wrong ID PASSWORD")
+                } else {
+                    val errorBody = response.errorBody()
+                    loginResponse.value=response.body();
+                    if (errorBody != null) {
+                        val errorString = errorBody.string()
+                        val loginFailure = Gson().fromJson(errorString, LoginResponse.LoginFailed::class.java)
+                        // Handle the failure response here
+                        Log.d(TAG, "Signup Status: ${loginFailure.message}")
+                    }
                 }
-
-
-
             }
 
-            override fun onFailure(call: Call<LoginResponse?>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                 Log.d(TAG, "login Status:" + t.localizedMessage);
             }
 
 
-             })
+        })
         return loginResponse;
     }
 
@@ -106,7 +102,7 @@ class UserRepository {
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                 Log.d(TAG, "onFailure: ${t.localizedMessage}")
-                // Handle network failures or other errors
+
             }
         })
 
