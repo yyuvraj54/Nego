@@ -18,28 +18,38 @@ import retrofit2.Response
 class LoginViewModel (application: Application) : AndroidViewModel(application) {
     private val sharedPrefsUtil = SharedPrefsUtil(application)
     private val userRepository = UserRepository()
-    fun saveLoginData(username: String, password: String) {
-        sharedPrefsUtil.saveUserInfo(username, password)
+    fun saveLoginData(username: String,name:String,icon:String,id:String, password: String) {
+        sharedPrefsUtil.saveUserInfo(username, name,icon,id,password)
         sharedPrefsUtil.saveLoginStatus(true)
     }
 
     fun checkLoginStatus(): Boolean {
         return sharedPrefsUtil.getLoginStatus()
     }
+//    fun saveLoginStatus(username: String,name:String,icon:String,id:String, password: String) {
+//        return sharedPrefsUtil.saveUserInfo(username,name,icon,id, password)
+//    }
 
     fun logout() {
         sharedPrefsUtil.clearLoginInfo()
     }
 
-    fun login(email: String, password: String): LiveData<ResponseBody?> {
-        return userRepository.startLogin(email, password);
+//    fun login(email: String, password: String): LiveData<ResponseBody?> {
+//        return userRepository.startLogin(email, password);
+//    }
+//
+//
+//    fun signup(name:String,email: String, password: String): LiveData<ResponseBody> {
+//        return userRepository.startSignup(name,email, password);
+//    }
+
+    fun firebasesignup(name:String,email: String, password: String): LiveData<String> {
+        return userRepository.firebaseSignup(name,email, password);
     }
 
-
-    fun signup(name:String,email: String, password: String): LiveData<ResponseBody> {
-        return userRepository.startSignup(name,email, password);
+    fun firebaselogin(email: String, password: String): LiveData<Pair<UserRepository.FirebaseUserResult, String>> {
+        return userRepository.firebaseLogin(email, password);
     }
-
 
 }
 
