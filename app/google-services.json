@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "596494318982",
+    "project_id": "nego-a7774",
+    "storage_bucket": "nego-a7774.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596494318982:android:d4442504d5cb105c248007",
+        "android_client_info": {
+          "package_name": "com.example.nego"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0LwGLeS2x7kgW67vwebnCig5_pkFn7pc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

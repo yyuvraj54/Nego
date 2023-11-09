@@ -6,15 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.nego.Responses.User
+import com.example.nego.adapter.UserAdapter
 import com.example.nego.databinding.FragmentChatsBinding
 
 class Chats : Fragment() {
+
+    private lateinit var userAdapter: UserAdapter
+
 
     private var _binding: FragmentChatsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +38,21 @@ class Chats : Fragment() {
 //        chatsViewModel.text.observe(viewLifecycleOwner) {
 //            textView.text = it
 //        }
+
+
+        binding.chatrRV.layoutManager = LinearLayoutManager(requireContext())
+        chatsViewModel.getUsersListFromRepo().observe(viewLifecycleOwner, { userList ->
+            userAdapter = UserAdapter(requireContext(),userList)
+            binding.chatrRV.adapter = userAdapter
+            userAdapter.notifyDataSetChanged()
+
+        });
+
+
+
+
+
+
         return root
     }
 

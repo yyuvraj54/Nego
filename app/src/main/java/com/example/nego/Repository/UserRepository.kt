@@ -1,15 +1,20 @@
 package com.example.nego.Repository
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.nego.Responses.LoginResponse
 import com.example.nego.Responses.SignupFailure
 import com.example.nego.Responses.SignupSuccess
+import com.example.nego.Responses.User
 import com.example.nego.Retrofit.RetrofitClient
 import com.example.nego.Retrofit.loginUser
 import com.example.nego.Retrofit.signupUser
+import com.example.nego.adapter.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -24,6 +29,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UserRepository {
+
+    var userList = ArrayList<User>()
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     data class FirebaseUserResult(val icon: String?, val username: String?,val uid: String?)
@@ -116,7 +123,6 @@ class UserRepository {
         return signupresponse;
 
     }
-
     fun firebaseSignup(name:String,email: String,password: String): LiveData<String> {
         var authStatus:String="Signup process start";
         val loginResponse = MutableLiveData<String>();
@@ -211,6 +217,38 @@ class UserRepository {
 
         return loginResponse
     }
+    fun getUsersList(): LiveData<ArrayList<User>> {
+        val userListLiveData = MutableLiveData<ArrayList<User>>()
+        val userList = ArrayList<User>()
 
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User")
+
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userList.clear()
+                for (dataSnapshot: DataSnapshot in snapshot.children) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    Log.d(TAG, "onDataChange: " + user.toString())
+
+                    if (user!!.userId == firebase.uid) {
+
+                        Log.d(TAG, "onDataChange: $userList")
+                    }
+                    else{
+                        Log.d(TAG, "onDataChange: $userList")
+                        userList.add(user)
+                    }
+                }
+                userListLiveData.value = userList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "onCancelled: " + error.message)
+            }
+        })
+
+        return userListLiveData
+    }
 
 }

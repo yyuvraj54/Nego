@@ -13,6 +13,7 @@ import com.example.nego.MainActivity
 import com.example.nego.R
 import com.example.nego.databinding.ActivityLoginBinding
 import com.example.nego.databinding.ActivitySignupBinding
+import com.google.android.gms.cast.framework.media.ImagePicker
 
 class signup : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
@@ -36,7 +37,13 @@ class signup : AppCompatActivity() {
 
 
 
-            if (validateFields(name,email,password)) {
+            binding.signupUserProfile.setOnClickListener {
+
+                loginViewModel.selectImageFromGallery(this,binding.signupUserProfile)
+
+            }
+
+        if (validateFields(name,email,password)) {
 
 
                 loginViewModel.firebasesignup(name,email,password).observe(this){Response->
