@@ -21,7 +21,7 @@
             android:id="@+id/profile_image"
             android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:src="@drawable/person_person_4_24"
+            android:src="@drawable/avtar"
             app:civ_border_color="#FF000000"/>
 
         <LinearLayout

@@ -1,23 +1,41 @@
 package com.example.nego.Auth
 
-import android.content.ContentValues
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.nego.MainActivity
-import com.example.nego.R
-import com.example.nego.databinding.ActivityLoginBinding
+import com.bumptech.glide.Glide
 import com.example.nego.databinding.ActivitySignupBinding
-import com.google.android.gms.cast.framework.media.ImagePicker
+import com.example.nego.firebase.FirebaseStorage
+
 
 class signup : AppCompatActivity() {
+    private val PICK_IMAGE_REQUEST = 1
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivitySignupBinding
+    var icon: Uri? =null
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImage: Uri? = data.data
+            if (selectedImage != null) {
+                icon= selectedImage
+                // Load the selected image into your CircleImageView using an image loading library
+                // For example, using Glide:
+                Glide.with(this)
+                    .load(selectedImage)
+                    .into(binding.signupUserProfile)
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -29,37 +47,70 @@ class signup : AppCompatActivity() {
 
 
 
-        binding.signBtn.setOnClickListener {
 
+
+
+        binding.signBtn.setOnClickListener {
+            binding.signBtn.isEnabled = false
             val name = binding.nameET.text.toString()
             val email = binding.userET.text.toString()
             val password = binding.passwordET.text.toString()
 
 
 
-            binding.signupUserProfile.setOnClickListener {
 
-                loginViewModel.selectImageFromGallery(this,binding.signupUserProfile)
+        if (validateFields(name,email,password)) {
+            if(icon!=null){
+
+                val uploader = FirebaseStorage()
+                uploader.uploadImage(selectedImageUrl = icon!!,
+                    uploadPath = "${email}/profile", // adjust the path as needed
+                    listener = object : FirebaseStorage.OnImageUploadListener {
+                        override fun onImageUploadSuccess(downloadUrl: String) {
+
+                            println("Image uploaded successfully. Download URL: $downloadUrl")
+                            var profileIcon = downloadUrl
+
+                            loginViewModel.firebasesignup(name,email,password,profileIcon).observe(this@signup){Response->
+                                if (Response != null) {
+                                    Toast.makeText(this@signup, Response.toString(),Toast.LENGTH_SHORT).show();
+                                    binding.signBtn.isEnabled = true
+                                }
+                                else{
+                                    Toast.makeText(this@signup, "Signup Failed",Toast.LENGTH_SHORT).show();
+                                    binding.signBtn.isEnabled = true
+                                }
+                            };
+                        }
+
+                        override fun onImageUploadFailure(exception: Exception) {
+                            Toast.makeText(this@signup, "Signup Failed : Profile Image Can't be set!",Toast.LENGTH_LONG).show();
+                            binding.signBtn.isEnabled = true
+                        }
+                    }
+                )
 
             }
 
-        if (validateFields(name,email,password)) {
-
-
-                loginViewModel.firebasesignup(name,email,password).observe(this){Response->
+            else{
+                val defaultImage=loginViewModel.getProfileImage();
+                loginViewModel.firebasesignup(name,email,password,defaultImage).observe(this@signup){Response->
                     if (Response != null) {
-                        Toast.makeText(this, Response.toString(),Toast.LENGTH_LONG).show();
-
+                        Toast.makeText(this@signup, Response.toString(),Toast.LENGTH_SHORT).show();
+                        binding.signBtn.isEnabled = true
                     }
                     else{
-                        Toast.makeText(this, "Signup Failed",Toast.LENGTH_LONG).show();
+                        Toast.makeText(this@signup, "Signup Failed",Toast.LENGTH_SHORT).show();
+                        binding.signBtn.isEnabled = true
                     }
                 };
 
-            } else {
-                Toast.makeText(this, "Something went wrong,try again  later!", Toast.LENGTH_SHORT).show()
             }
 
+            } else {
+                Toast.makeText(this, "Something went wrong,try again  later!", Toast.LENGTH_SHORT).show()
+                binding.signBtn.isEnabled = true
+            }
 
 
 
@@ -73,8 +124,17 @@ class signup : AppCompatActivity() {
 //                    Toast.makeText(this, "Signup Failed",Toast.LENGTH_LONG).show();
 //                }
 //            }
+
         }
 
+
+            binding.signupUserProfile.setOnClickListener {
+
+            Log.d(TAG, "onCreate:  clicked clicked")
+            loginViewModel.selectImageFromGallery(this,binding.signupUserProfile)
+
+
+        }
 
     }
 
@@ -103,5 +163,8 @@ class signup : AppCompatActivity() {
         }
         return true
     }
+
+
+
 }
 

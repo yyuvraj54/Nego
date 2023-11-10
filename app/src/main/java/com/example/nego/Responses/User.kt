@@ -1,4 +1,4 @@
 package com.example.nego.Responses
 
 
-data class User(var userId: String?="", var userName: String?="",var icon: String?="")
+data class User(var userId: String?="", var userName: String?="",var profileImage: String?="")

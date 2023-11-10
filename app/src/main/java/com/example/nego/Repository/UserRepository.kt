@@ -2,6 +2,7 @@ package com.example.nego.Repository
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -123,7 +124,7 @@ class UserRepository {
         return signupresponse;
 
     }
-    fun firebaseSignup(name:String,email: String,password: String): LiveData<String> {
+    fun firebaseSignup(name:String,email: String,password: String,icon: String): LiveData<String> {
         var authStatus:String="Signup process start";
         val loginResponse = MutableLiveData<String>();
         loginResponse.value=authStatus;
@@ -142,7 +143,8 @@ class UserRepository {
                 var hasMap:HashMap<String,String> = HashMap()
                 hasMap.put("userId",userId)
                 hasMap.put("userName",name)
-                hasMap.put("profileImage","none")
+                hasMap.put("profileImage",icon)
+
 
                 databaseReference.setValue(hasMap).addOnCompleteListener {
                     if (it.isSuccessful) {

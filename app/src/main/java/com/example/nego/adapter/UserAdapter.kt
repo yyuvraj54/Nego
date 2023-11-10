@@ -4,10 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nego.R
 import com.example.nego.Responses.User
+import de.hdodenhof.circleimageview.CircleImageView
 
 class UserAdapter(private val context: Context?, private val userList:ArrayList<User>):
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
@@ -26,13 +30,21 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
         val user =userList[position]
         holder.textUserName.text=user.userName
 
+        if (context != null) {
+            Glide.with(context)
+                .load(user.profileImage)
+                .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
+                .error(R.drawable.avtar) // Optional: Image to display if loading fails
+                .into(holder.imgUser)
+        }
+
 
     }
 
 
     class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val textUserName:TextView =view.findViewById(R.id.person_name)
-//        val imgUser:TextView =view.findViewById(R.id.profile_image)
+        val imgUser: CircleImageView =view.findViewById(R.id.profile_image)
         val lasttext:TextView =view.findViewById(R.id.last_message)
     }
 
