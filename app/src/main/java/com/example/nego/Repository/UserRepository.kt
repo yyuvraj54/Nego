@@ -253,4 +253,34 @@ class UserRepository {
         return userListLiveData
     }
 
+    fun getProfileData(): LiveData<ArrayList<User>> {
+        val userListLiveData = MutableLiveData<ArrayList<User>>()
+        val userList = ArrayList<User>()
+
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
+
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userList.clear()
+                for (dataSnapshot: DataSnapshot in snapshot.children) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    Log.d(TAG, "onDataChange: " + user.toString())
+
+                    if (user!!.userId == firebase.uid) {
+                        userList.add(user)
+                        Log.d(TAG, "onDataChange: $userList")
+                    }
+                }
+                userListLiveData.value = userList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "onCancelled: " + error.message)
+            }
+        })
+
+        return userListLiveData
+    }
+
 }
