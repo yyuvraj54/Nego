@@ -231,14 +231,12 @@ class UserRepository {
                 userList.clear()
                 for (dataSnapshot: DataSnapshot in snapshot.children) {
                     val user = dataSnapshot.getValue(User::class.java)
-                    Log.d(TAG, "onDataChange: " + user.toString())
+
 
                     if (user!!.userId == firebase.uid) {
-
-                        Log.d(TAG, "onDataChange: $userList")
+                        continue
                     }
                     else{
-                        Log.d(TAG, "onDataChange: $userList")
                         userList.add(user)
                     }
                 }
@@ -263,15 +261,12 @@ class UserRepository {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 userList.clear()
-                for (dataSnapshot: DataSnapshot in snapshot.children) {
-                    val user = dataSnapshot.getValue(User::class.java)
-                    Log.d(TAG, "onDataChange: " + user.toString())
 
-                    if (user!!.userId == firebase.uid) {
-                        userList.add(user)
-                        Log.d(TAG, "onDataChange: $userList")
-                    }
-                }
+
+               userList.add (User(profileImage = snapshot.child("profileImage").value.toString(),
+                    userName = snapshot.child("userName").value.toString(),
+                    userId = snapshot.child("userId").value.toString()))
+
                 userListLiveData.value = userList
             }
 

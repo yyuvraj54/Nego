@@ -1,6 +1,8 @@
 package com.example.nego.ui.profire
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +43,6 @@ class Profile : Fragment() {
                 // Accessing the first user in the list
                 val user = userList[0]
 
-                // Accessing properties
                 val name = user.userName
                 val userId = user.userId
                 val profileIconUrl = user.profileImage // Assuming profileIcon is a URL
