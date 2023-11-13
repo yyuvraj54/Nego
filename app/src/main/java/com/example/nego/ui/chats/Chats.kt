@@ -20,8 +20,8 @@ class Chats : Fragment() {
     private var _binding: FragmentChatsBinding? = null
 
     // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val binding get() = _binding!!    // onDestroyView.
+
 
 
     override fun onCreateView(

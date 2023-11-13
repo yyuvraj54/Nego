@@ -1,25 +1,31 @@
 package com.example.nego.ui.profire
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.nego.Auth.login
+import com.example.nego.MainActivity
 import com.example.nego.R
+import com.example.nego.SharedPrefsUtil
 import com.example.nego.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.auth.User
+
 
 
 class Profile : Fragment() {
+    private lateinit var sharedPrefsUtil: SharedPrefsUtil
 
     private var _binding: FragmentProfileBinding? = null
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -58,6 +64,21 @@ class Profile : Fragment() {
             }
         }
 
+        binding.logoutBtn.setOnClickListener {
+            val auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            Log.d(TAG, "Logout: "+auth.currentUser)
+            if(auth.currentUser==null){
+                sharedPrefsUtil = SharedPrefsUtil(requireContext())
+                sharedPrefsUtil.clearLoginInfo();
+
+
+                val intent = Intent(requireContext(), login::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+
+            }
+        }
 
 
 

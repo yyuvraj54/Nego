@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.nego.Responses.Chat
 import com.example.nego.Responses.LoginResponse
 import com.example.nego.Responses.SignupFailure
 import com.example.nego.Responses.SignupSuccess
@@ -16,6 +17,7 @@ import com.example.nego.Retrofit.RetrofitClient
 import com.example.nego.Retrofit.loginUser
 import com.example.nego.Retrofit.signupUser
 import com.example.nego.adapter.UserAdapter
+import com.google.api.LogDescriptor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -277,5 +279,38 @@ class UserRepository {
 
         return userListLiveData
     }
+
+    fun readMessage(senderId:String,receiverId:String): LiveData<ArrayList<Chat>> {
+
+        val chatListLiveData = MutableLiveData<ArrayList<Chat>>()
+        val chatList = ArrayList<Chat>()
+
+
+        val databaseReferenc  = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("Chat")
+
+        databaseReferenc.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                chatList.clear()
+                for (dataSnapshot: DataSnapshot in snapshot.children) {
+                    val chat = dataSnapshot.getValue(Chat::class.java)
+
+
+                    if (chat!!.senderId.equals(senderId) && chat!!.receiverId.equals(receiverId)
+                        || chat!!.senderId.equals(receiverId) && chat!!.receiverId.equals(senderId)) {
+                        chatList.add(chat)
+                    }
+
+                }
+                Log.d(TAG, "chat output "+chatList)
+                chatListLiveData.value = chatList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "chat error: "+error.message)
+            }
+        })
+        return chatListLiveData
+    }
+
 
 }
