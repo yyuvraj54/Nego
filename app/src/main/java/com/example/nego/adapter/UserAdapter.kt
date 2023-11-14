@@ -46,6 +46,8 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
         }
 
 
+
+
         holder.userItem.setOnClickListener {
 
             val intent= Intent(context,chatScreen::class.java)

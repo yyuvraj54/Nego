@@ -50,6 +50,7 @@ RecyclerView.Adapter<ChatAdapter.ViewHolder>(){
 //                .error(R.drawable.avtar) // Optional: Image to display if loading fails
 //                .into(holder.imgUser)
 //        }
+        holder.datetext.text=chat.date
 
     }
 
@@ -59,6 +60,7 @@ RecyclerView.Adapter<ChatAdapter.ViewHolder>(){
 
     class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val textUsername: TextView =view.findViewById(R.id.message)
+        val datetext: TextView =view.findViewById(R.id.date)
 
 
     }

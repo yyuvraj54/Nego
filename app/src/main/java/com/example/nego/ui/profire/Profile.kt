@@ -53,6 +53,8 @@ class Profile : Fragment() {
                 val userId = user.userId
                 val profileIconUrl = user.profileImage // Assuming profileIcon is a URL
 
+
+
                 binding.profileName.text =name
                 val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
                 Glide.with(this)

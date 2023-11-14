@@ -46,7 +46,9 @@ class chatScreen : AppCompatActivity() {
 
 
 
-
+    binding.backbtn.setOnClickListener{
+        onBackPressedDispatcher.onBackPressed()
+    }
 
         var intent =getIntent()
         var userid = intent.getStringExtra("UserId")

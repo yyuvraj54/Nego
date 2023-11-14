@@ -4,9 +4,9 @@
     <solid
         android:color="@color/colorRightItem"/>
     <corners
-        android:topLeftRadius="15dp"
-        android:bottomLeftRadius="15dp"
-        android:bottomRightRadius="15dp"
+        android:topLeftRadius="6dp"
+        android:bottomLeftRadius="6dp"
+        android:bottomRightRadius="6dp"
         android:topRightRadius="0dp" />
 
 </shape>
