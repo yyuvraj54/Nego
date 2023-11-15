@@ -40,6 +40,7 @@ class Chats : Fragment() {
 //        }
 
 
+
         binding.chatrRV.layoutManager = LinearLayoutManager(requireContext())
         chatsViewModel.getUsersListFromRepo().observe(viewLifecycleOwner, { userList ->
             userAdapter = UserAdapter(requireContext(),userList)

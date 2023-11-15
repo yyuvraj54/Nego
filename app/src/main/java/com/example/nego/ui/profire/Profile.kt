@@ -55,6 +55,7 @@ class Profile : Fragment() {
 
 
 
+
                 binding.profileName.text =name
                 val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
                 Glide.with(this)

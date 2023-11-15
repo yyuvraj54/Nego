@@ -59,7 +59,7 @@
                     android:id="@+id/chatScreenName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/monasans_black"
                     android:textStyle="bold"
                     android:text="Name"
                     android:textColor="@color/white"
@@ -69,7 +69,7 @@
                     android:id="@+id/chatScreenState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/gilroylight"
+                    android:fontFamily="@font/mona_sans"
                     android:text="state"
                     android:textColor="@color/white" />
             </LinearLayout>
@@ -82,7 +82,6 @@
         android:id="@+id/chatscreenRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/gradient_back"
         app:layout_constraintBottom_toTopOf="@+id/relaout"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.0"

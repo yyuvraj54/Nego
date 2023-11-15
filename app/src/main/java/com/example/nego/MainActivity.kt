@@ -1,7 +1,9 @@
 package com.example.nego
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -13,6 +15,10 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nego.databinding.ActivityMainBinding
+import com.example.nego.ui.profire.Profile
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,15 +49,55 @@ class MainActivity : AppCompatActivity() {
 
 
 
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
+
+        var hashMap:HashMap<String,String> = HashMap()
+        hashMap.put("state","online");
+        databaseReference!!.child("LastRec").setValue(hashMap)
+
+
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
+
+        var hashMap:HashMap<String,String> = HashMap()
+        hashMap.put("state","offline");
+        databaseReference!!.child("LastRec").setValue(hashMap)
+
+
 
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+
         return true
     }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.action_settings -> {
+//
+//                val intent = Intent(this, Profile::class.java)
+//                startActivity(intent)
+//                finish()
+//
+//                return true
+//            }
+//
+//            else -> return super.onOptionsItemSelected(item)
+//        }
+//    }
+//
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

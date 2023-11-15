@@ -44,6 +44,7 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
                 .error(R.drawable.avtar) // Optional: Image to display if loading fails
                 .into(holder.imgUser)
         }
+        holder.State.text=user.state
 
 
 
@@ -64,6 +65,8 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
         val imgUser: CircleImageView =view.findViewById(R.id.profile_image)
         val lasttext:TextView =view.findViewById(R.id.last_message)
         val userItem: CardView =view.findViewById(R.id.UserItem)
+        val State: TextView =view.findViewById(R.id.onlineState)
+
     }
 
 }
