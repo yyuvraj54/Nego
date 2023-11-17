@@ -1,6 +1,7 @@
 package com.example.nego
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -31,7 +32,6 @@ class chatScreen : AppCompatActivity() {
     private lateinit var chatAdapter: ChatAdapter
     var firebaseUser:FirebaseUser? =null
     var reference:DatabaseReference? =null
-    var chatList=ArrayList<Chat>()
     private lateinit var binding: ActivityChatScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,7 @@ class chatScreen : AppCompatActivity() {
         binding.chatscreenRV.layoutManager=LinearLayoutManager(this, RecyclerView.VERTICAL,false)
 
 
+        ChatScreenViewModel.updateState()
 
 
     binding.backbtn.setOnClickListener{
@@ -60,12 +61,17 @@ class chatScreen : AppCompatActivity() {
         reference!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user =snapshot.getValue(com.example.nego.Responses.User::class.java)
+
+
+                binding.chatScreenState.text=user!!.state
                binding.chatScreenName.text =user!!.userName
                 if(user.profileImage==""){
                     binding.chatScreenProfileIcon.setImageResource(R.drawable.avtar)
                 }
                 else{
-                    Glide.with(this@chatScreen).load(user.profileImage).into(binding.chatScreenProfileIcon)
+                    try{
+                    Glide.with(this@chatScreen).load(user.profileImage).placeholder(R.drawable.avtar).error(R.drawable.avtar).into(binding.chatScreenProfileIcon) // Optional: Image to display if loading fails
+                    }catch (err:Exception){ Log.d(TAG, "onDataChange: "+err)}
                 }
             }
 
@@ -78,13 +84,14 @@ class chatScreen : AppCompatActivity() {
 
 
 
-
         ChatScreenViewModel.readMessages(firebaseUser!!.uid,userid).observe(this, { chatList ->
 
             chatAdapter = ChatAdapter(this,chatList)
             binding.chatscreenRV.adapter = chatAdapter
             chatAdapter.notifyDataSetChanged()
-
+            binding.chatscreenRV.post {
+                scrollToLastItem(binding.chatscreenRV, chatList)
+            }
 
         });
 
@@ -105,6 +112,35 @@ class chatScreen : AppCompatActivity() {
 
 
         }
+
+    }
+    override fun onResume() {
+        super.onResume()
+
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
+        val updates = hashMapOf<String, Any>(
+            "state" to  "online"
+        )
+        databaseReference!!.updateChildren(updates)
+
+    }
+    private fun scrollToLastItem(recyclerView: RecyclerView ,chatList:ArrayList<Chat>) {
+        val lastVisiblePosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+        // Scroll only if there are items in the RecyclerView
+        if (chatList.isNotEmpty() && lastVisiblePosition >= 0) {
+            recyclerView.scrollToPosition(chatList.size - 1)
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
+        val updates = hashMapOf<String, Any>(
+            "state" to  "offline"
+        )
+        databaseReference!!.updateChildren(updates)
 
     }
 }

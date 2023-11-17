@@ -52,6 +52,7 @@ RecyclerView.Adapter<ChatAdapter.ViewHolder>(){
 //        }
         holder.datetext.text=chat.date
 
+
     }
 
     override fun getItemCount(): Int {
@@ -61,6 +62,8 @@ RecyclerView.Adapter<ChatAdapter.ViewHolder>(){
     class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val textUsername: TextView =view.findViewById(R.id.message)
         val datetext: TextView =view.findViewById(R.id.date)
+
+
 
 
     }

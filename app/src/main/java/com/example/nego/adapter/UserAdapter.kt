@@ -34,17 +34,19 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user =userList[position]
-        holder.textUserName.text=user.userName
 
-        if (context != null) {
-            Glide.with(context)
-                .load(user.profileImage)
-                .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
-                .error(R.drawable.avtar) // Optional: Image to display if loading fails
-                .into(holder.imgUser)
-        }
-        holder.State.text=user.state
+        try {
+            val user = userList[position]
+            holder.textUserName.text = user.userName
+
+            if (context != null) {
+                Glide.with(context)
+                    .load(user.profileImage)
+                    .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
+                    .error(R.drawable.avtar) // Optional: Image to display if loading fails
+                    .into(holder.imgUser)
+            }
+            holder.State.text = user.state
 
 
 
@@ -55,6 +57,11 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
             intent.putExtra("UserId",user.userId)
             context?.startActivity(intent)
 
+        }
+        }
+
+        catch (e: Exception) {
+            Log.d(TAG, "onBindViewHolder: "+e)
         }
 
     }

@@ -301,7 +301,6 @@ class UserRepository {
                     }
 
                 }
-                Log.d(TAG, "chat output "+chatList)
                 chatListLiveData.value = chatList
             }
 

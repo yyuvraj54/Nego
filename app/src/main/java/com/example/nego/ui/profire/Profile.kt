@@ -18,7 +18,7 @@ import com.example.nego.SharedPrefsUtil
 import com.example.nego.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-
+import com.google.firebase.database.FirebaseDatabase
 
 
 class Profile : Fragment() {
@@ -54,24 +54,41 @@ class Profile : Fragment() {
                 val profileIconUrl = user.profileImage // Assuming profileIcon is a URL
 
 
-
-
-                binding.profileName.text =name
-                val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-                Glide.with(this)
-                    .load(profileIconUrl)
-                    .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
-                    .error(R.drawable.avtar) // Optional: Image to display if loading fails
-                    .into(binding.profileImage)
-                binding.profileEmail.text =firebase.email
+try {
+    binding.profileName.text = name
+    val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+    Glide.with(this)
+        .load(profileIconUrl)
+        .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
+        .error(R.drawable.avtar) // Optional: Image to display if loading fails
+        .into(binding.profileImage)
+    binding.profileEmail.text = firebase.email
+}catch (err:Exception){
+    Log.d(TAG, "onCreateView: "+err)
+}
             }
         }
 
         binding.logoutBtn.setOnClickListener {
+
+            try {
+                val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+                val databaseReference =
+                    FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app")
+                        .getReference("User").child(firebase.uid)
+                val updates = hashMapOf<String, Any>(
+                    "state" to "offline"
+                )
+                databaseReference!!.updateChildren(updates)
+            }catch (err:Exception){
+                Log.d(TAG, "onCreateView: "+err)
+            }
             val auth = FirebaseAuth.getInstance()
             auth.signOut()
             Log.d(TAG, "Logout: "+auth.currentUser)
             if(auth.currentUser==null){
+
+
                 sharedPrefsUtil = SharedPrefsUtil(requireContext())
                 sharedPrefsUtil.clearLoginInfo();
 

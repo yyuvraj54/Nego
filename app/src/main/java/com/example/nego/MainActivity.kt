@@ -1,7 +1,9 @@
 package com.example.nego
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -52,9 +54,16 @@ class MainActivity : AppCompatActivity() {
         val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
         val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
 
-        var hashMap:HashMap<String,String> = HashMap()
-        hashMap.put("state","online");
-        databaseReference!!.child("LastRec").setValue(hashMap)
+
+
+
+
+
+        val updates = hashMapOf<String, Any>(
+            "state" to  "online"
+        )
+
+        databaseReference!!.updateChildren(updates)
 
 
 
@@ -63,19 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
 
-        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
-
-        var hashMap:HashMap<String,String> = HashMap()
-        hashMap.put("state","offline");
-        databaseReference!!.child("LastRec").setValue(hashMap)
-
-
-
-    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
@@ -104,4 +101,34 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 
     }
+
+    override fun onPause() {
+        super.onPause()
+try {
+    val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+    val databaseReference =
+        FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .getReference("User").child(firebase.uid)
+    val updates = hashMapOf<String, Any>(
+        "state" to "offline"
+    )
+    databaseReference!!.updateChildren(updates)
+}
+catch (err:Exception){
+    Log.d(TAG, "onPause: "+err)}
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
+        val updates = hashMapOf<String, Any>(
+            "state" to  "online"
+        )
+        databaseReference!!.updateChildren(updates)
+
+    }
+
 }

@@ -6,6 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.nego.Repository.UserRepository
 import com.example.nego.Responses.Chat
+import com.example.nego.Responses.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
@@ -32,8 +35,6 @@ class chatScreenViewModel(application: Application) :AndroidViewModel(applicatio
         hashMap.put("message",message);
         hashMap.put("date",formattedDateTime);
 
-
-
         reference!!.child("Chat").push().setValue(hashMap)
 
 //        var hashMapdate:HashMap<String,String> = HashMap()
@@ -46,4 +47,22 @@ class chatScreenViewModel(application: Application) :AndroidViewModel(applicatio
     fun readMessages(senderId:String,receiverId: String): LiveData<ArrayList<Chat>>{
       return userRepository.readMessage(senderId,receiverId)
     }
+
+    fun updateState() {
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
+
+        val updates = hashMapOf<String, Any>("state" to  "online")
+        databaseReference!!.updateChildren(updates)
+
+    }
+
+
+//    fun filterChats(query: String,_chatList:ArrayList<User>) {
+//        val filteredList = _chatList.value?.filter { chat ->
+//            chat.name.contains(query, true)
+//        }
+//        _filteredChatList.value = filteredList
+//    }
+
 }
