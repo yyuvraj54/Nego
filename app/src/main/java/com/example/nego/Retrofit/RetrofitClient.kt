@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object  RetrofitClient {
     private val retrofit by lazy {
-        Retrofit.Builder().baseUrl("https://negoauth.onrender.com/api/v1/").addConverterFactory(GsonConverterFactory.create())
+        Retrofit.Builder().baseUrl("https://api.openai.com/v1/").addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 

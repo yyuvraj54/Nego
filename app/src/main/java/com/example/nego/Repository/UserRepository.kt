@@ -13,6 +13,8 @@ import com.example.nego.Responses.LoginResponse
 import com.example.nego.Responses.SignupFailure
 import com.example.nego.Responses.SignupSuccess
 import com.example.nego.Responses.User
+import com.example.nego.Responses.chatbotResponse
+import com.example.nego.Retrofit.ApiChat
 import com.example.nego.Retrofit.RetrofitClient
 import com.example.nego.Retrofit.loginUser
 import com.example.nego.Retrofit.signupUser
@@ -309,6 +311,61 @@ class UserRepository {
             }
         })
         return chatListLiveData
+    }
+
+
+    fun chatApicall(model:String , promt:String ,max_tokens:Int,temperature:Int) : LiveData<chatbotResponse?> {
+        val userMessage = ApiChat(model ,promt, max_tokens,temperature);
+        val gptResponse=MutableLiveData<chatbotResponse?>();
+
+
+        RetrofitClient.apiService.ApiCall(userMessage)?.enqueue(object : Callback<chatbotResponse?> {
+            override fun onResponse(call: Call<chatbotResponse?>, response: Response<chatbotResponse?>) {
+                Log.d(TAG, "onResponse: "+response)
+                if (response.isSuccessful) {
+
+                    val responseBody = response.body()
+
+                    // Process the response body here
+                    if (responseBody != null) {
+                        val id = responseBody.id
+                        val objectType = responseBody.`object`
+                        val created = responseBody.created
+                        val model = responseBody.model
+                        val systemFingerprint = responseBody.system_fingerprint
+
+                        // Accessing choices (assuming there's only one choice)
+                        val choice = responseBody.choices.firstOrNull()
+                        val textInChoice = choice?.text
+                        val indexInChoice = choice?.index
+                        val finishReason = choice?.finish_reason
+
+                        // Accessing usage
+                        val promptTokens = responseBody.usage.prompt_tokens
+                        val completionTokens = responseBody.usage.completion_tokens
+                        val totalTokens = responseBody.usage.total_tokens
+
+                        // Log or use these values as needed
+                        Log.d(TAG, "ID: $id, Object Type: $objectType, Created: $created")
+                        Log.d(TAG, "Model: $model, System Fingerprint: $systemFingerprint")
+                        Log.d(TAG, "Text in Choice: $textInChoice, Index in Choice: $indexInChoice")
+                        Log.d(TAG, "Finish Reason: $finishReason")
+                        Log.d(TAG, "Prompt Tokens: $promptTokens, Completion Tokens: $completionTokens, Total Tokens: $totalTokens")
+
+
+                    }
+                    gptResponse.value = responseBody
+                }
+            }
+
+            override fun onFailure(call: Call<chatbotResponse?>, t: Throwable) {
+                Log.d(TAG, "onFailure: ${t.localizedMessage}")
+
+            }
+        })
+
+        return gptResponse;
+
     }
 
 
