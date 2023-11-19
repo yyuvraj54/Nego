@@ -1,9 +1,6 @@
 package com.example.nego.Retrofit
 
-import com.example.nego.Responses.LoginResponse
-import com.example.nego.Responses.SignupSuccess
-import com.example.nego.Responses.chatbotResponse
-import com.google.gson.JsonObject
+import com.example.nego.Responses.ApiRequestPalm
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -18,7 +15,7 @@ interface ApiService {
     @POST("signup")
     fun signup(@Body signupUser: signupUser?): Call<ResponseBody?>?
 
-    @POST("completions")
-    @Headers("Authorization: Bearer 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")
-    fun ApiCall(@Body apichat: ApiChat?): Call<chatbotResponse?>?
+    @POST("models/text-bison-001:generateText?key=AIzaSyD91lqa7knpQ1kmyRBBfKNGPdvWnjHkbd0")
+    @Headers("Content-Type: application/json")
+    fun ApiCall(@Body apichat: ApiRequestPalm): Call<ResponseBody?>?
 }

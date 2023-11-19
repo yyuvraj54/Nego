@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.nego.Responses.Chat
 import com.example.nego.Responses.chatbotmodel
 import com.example.nego.adapter.ChatBotAdapter
 import com.example.nego.adapter.UserAdapter
@@ -54,17 +56,18 @@ class Chatbot : Fragment() {
             Log.d(TAG, "onCreateView: "+query)
             var value_query=chatbotmodel(query,"person")
             chatbotViewModel.addResponse(value_query)
+            chatbotViewModel.callApi(query).observe(viewLifecycleOwner,{ApiResponse ->
 
-            chatbotViewModel.callApi("gpt-3.5-turbo-instruct",query,4000,0).observe(viewLifecycleOwner,{gptResponse ->
+                if(ApiResponse!=null){
 
-                if(gptResponse!=null){
-                    val choice = gptResponse.choices.firstOrNull()
-                    val textInChoice = choice?.text
-                    Log.d(TAG, "onCreateView: "+textInChoice)
-                    var value_res=chatbotmodel(textInChoice,"BOT")
+                    Log.d(TAG, "onCreateView: "+ApiResponse)
+                    var value_res=chatbotmodel(ApiResponse,"BOT")
                     chatbotViewModel.addResponse(value_res)
 
+//
+
                 }
+
             });
             addDataToRV( chatbotViewModel.getchatResponse())
 
@@ -91,7 +94,18 @@ class Chatbot : Fragment() {
         binding.chatbotRV.adapter = chatBotAdapter
         chatBotAdapter.notifyDataSetChanged()
 
+
+
     }
+
+
+//    private fun scrollToLastItem(recyclerView: RecyclerView) {
+//        val lastVisiblePosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+//        // Scroll only if there are items in the RecyclerView
+//        if (chatList.isNotEmpty() && lastVisiblePosition >= 0) {
+//            recyclerView.scrollToPosition(chatList.size - 1)
+//        }
+//    }
 
 
 

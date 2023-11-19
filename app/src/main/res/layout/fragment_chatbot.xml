@@ -30,7 +30,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="15dp"
-                android:src="@drawable/chatbot"
+                android:src="@drawable/ai"
                 android:padding="5dp"
                 app:layout_constraintBottom_toTopOf="@+id/nameET"
                 app:layout_constraintEnd_toEndOf="parent"

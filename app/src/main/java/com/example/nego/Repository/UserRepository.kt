@@ -1,25 +1,22 @@
 package com.example.nego.Repository
 
 import android.content.ContentValues.TAG
-import android.content.Context
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.nego.Responses.ApiRequestPalm
 import com.example.nego.Responses.Chat
+import com.example.nego.Responses.ErrorResponse
 import com.example.nego.Responses.LoginResponse
+import com.example.nego.Responses.Prompt
 import com.example.nego.Responses.SignupFailure
 import com.example.nego.Responses.SignupSuccess
+import com.example.nego.Responses.SuccessResponse
 import com.example.nego.Responses.User
-import com.example.nego.Responses.chatbotResponse
 import com.example.nego.Retrofit.ApiChat
 import com.example.nego.Retrofit.RetrofitClient
 import com.example.nego.Retrofit.loginUser
 import com.example.nego.Retrofit.signupUser
-import com.example.nego.adapter.UserAdapter
-import com.google.api.LogDescriptor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -314,51 +311,44 @@ class UserRepository {
     }
 
 
-    fun chatApicall(model:String , promt:String ,max_tokens:Int,temperature:Int) : LiveData<chatbotResponse?> {
-        val userMessage = ApiChat(model ,promt, max_tokens,temperature);
-        val gptResponse=MutableLiveData<chatbotResponse?>();
+    fun chatApicall(text:String): LiveData<String?> {
 
+        val jsonObjectText = Prompt(text = text)
+        val apiRequest = ApiRequestPalm(prompt = jsonObjectText)
+        val gptResponse=MutableLiveData<String?>();
 
-        RetrofitClient.apiService.ApiCall(userMessage)?.enqueue(object : Callback<chatbotResponse?> {
-            override fun onResponse(call: Call<chatbotResponse?>, response: Response<chatbotResponse?>) {
-                Log.d(TAG, "onResponse: "+response)
+        RetrofitClient.apiService.ApiCall(apiRequest)?.enqueue(object : Callback<ResponseBody?> {
+            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+
+                Log.d("APICALL Response", "${response.message()} ${response.code()}")
+
                 if (response.isSuccessful) {
-
                     val responseBody = response.body()
 
                     // Process the response body here
                     if (responseBody != null) {
-                        val id = responseBody.id
-                        val objectType = responseBody.`object`
-                        val created = responseBody.created
-                        val model = responseBody.model
-                        val systemFingerprint = responseBody.system_fingerprint
-
-                        // Accessing choices (assuming there's only one choice)
-                        val choice = responseBody.choices.firstOrNull()
-                        val textInChoice = choice?.text
-                        val indexInChoice = choice?.index
-                        val finishReason = choice?.finish_reason
-
-                        // Accessing usage
-                        val promptTokens = responseBody.usage.prompt_tokens
-                        val completionTokens = responseBody.usage.completion_tokens
-                        val totalTokens = responseBody.usage.total_tokens
-
-                        // Log or use these values as needed
-                        Log.d(TAG, "ID: $id, Object Type: $objectType, Created: $created")
-                        Log.d(TAG, "Model: $model, System Fingerprint: $systemFingerprint")
-                        Log.d(TAG, "Text in Choice: $textInChoice, Index in Choice: $indexInChoice")
-                        Log.d(TAG, "Finish Reason: $finishReason")
-                        Log.d(TAG, "Prompt Tokens: $promptTokens, Completion Tokens: $completionTokens, Total Tokens: $totalTokens")
-
+                        val responseString = responseBody.string()
+                        val SuccessResponse = Gson().fromJson(responseString, SuccessResponse::class.java)
+                        try{
+                        Log.d(TAG, "Signup Status: ${SuccessResponse.candidates[0].output}")
+                        gptResponse.value=SuccessResponse.candidates[0].output}catch (err:Exception){
+                            gptResponse.value=err.toString()
+                        }
 
                     }
-                    gptResponse.value = responseBody
+                } else {
+                    val errorBody = response.errorBody()
+                    if (errorBody != null) {
+                        val errorString = errorBody.string()
+                        val ErrorResponse = Gson().fromJson(errorString, ErrorResponse::class.java)
+                        // Handle the failure response here
+                        Log.d(TAG, "Signup Status: ${ErrorResponse.error}")
+                        gptResponse.value= ErrorResponse.error.toString()
+                    }
                 }
             }
 
-            override fun onFailure(call: Call<chatbotResponse?>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                 Log.d(TAG, "onFailure: ${t.localizedMessage}")
 
             }
