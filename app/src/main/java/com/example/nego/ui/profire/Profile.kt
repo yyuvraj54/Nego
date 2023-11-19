@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -51,21 +52,25 @@ class Profile : Fragment() {
 
                 val name = user.userName
                 val userId = user.userId
-                val profileIconUrl = user.profileImage // Assuming profileIcon is a URL
+                val profileIconUrl = user.profileImage
 
 
-try {
-    binding.profileName.text = name
-    val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-    Glide.with(this)
-        .load(profileIconUrl)
-        .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
-        .error(R.drawable.avtar) // Optional: Image to display if loading fails
-        .into(binding.profileImage)
-    binding.profileEmail.text = firebase.email
-}catch (err:Exception){
-    Log.d(TAG, "onCreateView: "+err)
-}
+            try {
+                binding.profileName.text = name
+                val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+
+                binding.profileEmail.text = firebase.email
+
+
+                Glide.with(this)
+                    .load(profileIconUrl)
+                    .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
+                    .error(R.drawable.avtar) // Optional: Image to display if loading fails
+                    .into(binding.profileImage)
+                binding.profileEmail.text = firebase.email
+            }catch (err:Exception){
+                Log.d(TAG, "onCreateView: "+err)
+            }
             }
         }
 

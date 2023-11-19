@@ -63,9 +63,7 @@ class Chatbot : Fragment() {
                     Log.d(TAG, "onCreateView: "+ApiResponse)
                     var value_res=chatbotmodel(ApiResponse,"BOT")
                     chatbotViewModel.addResponse(value_res)
-
-//
-
+                    chatBotAdapter.notifyDataSetChanged()
                 }
 
             });
@@ -93,8 +91,6 @@ class Chatbot : Fragment() {
         chatBotAdapter = ChatBotAdapter(requireContext(),chatbotList)
         binding.chatbotRV.adapter = chatBotAdapter
         chatBotAdapter.notifyDataSetChanged()
-
-
 
     }
 

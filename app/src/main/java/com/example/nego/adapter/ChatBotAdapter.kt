@@ -31,12 +31,12 @@ class ChatBotAdapter(private val context: Context?, private val chatbotList:Arra
         if(viewType==MESSAGE_TYPE_RIGHT){
 
             val view =LayoutInflater.from(parent.context).inflate(R.layout.item_right_side,parent,false)
-            return ChatBotAdapter.ViewHolder(view)
+            return ViewHolder(view)
 
         }
         else{
             val view =LayoutInflater.from(parent.context).inflate(R.layout.item_left_side,parent,false)
-            return ChatBotAdapter.ViewHolder(view)
+            return ViewHolder(view)
         }
 
     }
