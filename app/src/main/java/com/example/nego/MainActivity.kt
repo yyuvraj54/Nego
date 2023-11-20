@@ -72,22 +72,32 @@ class MainActivity : AppCompatActivity() {
 
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var profile= snapshot.child("profileImage").value.toString()
-                var username =snapshot.child("userName").value.toString()
-                var email =firebase.email.toString()
 
-                val profile_view: CircleImageView = header.findViewById(R.id.nav_slide_profile)
-                val username_view: TextView = header.findViewById(R.id.usernameETNAV)
-                val email_view: TextView = header.findViewById(R.id.emailETNAV)
 
-                email_view.setText(email)
-                username_view.setText(username)
 
-                Glide.with(this@MainActivity)
-                    .load(profile)
-                    .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
-                    .error(R.drawable.avtar) // Optional: Image to display if loading fails
-                    .into(profile_view)
+                try {
+                    var profile= snapshot.child("profileImage").value.toString()
+                    var username =snapshot.child("userName").value.toString()
+                    var email =firebase.email.toString()
+
+                    val profile_view: CircleImageView = header.findViewById(R.id.nav_slide_profile)
+                    val username_view: TextView = header.findViewById(R.id.usernameETNAV)
+                    val email_view: TextView = header.findViewById(R.id.emailETNAV)
+
+                    email_view.setText(email)
+                    username_view.setText(username)
+
+                    Glide.with(this@MainActivity)
+                        .load(profile)
+                        .placeholder(R.drawable.avtar) // Optional: Placeholder image while loading
+                        .error(R.drawable.avtar) // Optional: Image to display if loading fails
+                        .into(profile_view)
+
+
+                }catch (err:Exception){
+                    Log.d(TAG, "onDataChange: "+err)
+                }
+
 
             }
 
