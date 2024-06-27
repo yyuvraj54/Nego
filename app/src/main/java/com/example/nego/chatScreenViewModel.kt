@@ -19,11 +19,12 @@ import java.util.Locale
 class chatScreenViewModel(application: Application) :AndroidViewModel(application) {
     private val userRepository = UserRepository()
     var reference: DatabaseReference? =null
+    private val utilities = Utilities()
 
     fun formatDateTime(date: Date): String {
         return SimpleDateFormat("dd-MM-yy HH:mm", Locale.getDefault()).format(date)
     }
-    fun sendMessage(senderId:String,receiverId:String,message:String){
+    fun sendMessage(senderId:String,receiverId:String,message:String,type:String="message"){
         val currentDate = Date()
         val formattedDateTime:String = formatDateTime(currentDate)
 
@@ -32,6 +33,7 @@ class chatScreenViewModel(application: Application) :AndroidViewModel(applicatio
         var hashMap:HashMap<String,String> = HashMap()
         hashMap.put("senderId",senderId);
         hashMap.put("receiverId",receiverId);
+        hashMap.put("type",type);
         hashMap.put("message",message);
         hashMap.put("date",formattedDateTime);
 
@@ -43,15 +45,26 @@ class chatScreenViewModel(application: Application) :AndroidViewModel(applicatio
 //        reference!!.child(receiverId).child("Dates").child(senderId).push().setValue(hashMapdate)
 
     }
+    fun sendPaymentMessage(senderId:String,receiverId:String,message:String,amount:String,paymentState:String="-1" , type:String="paymentRequest"){
+        val currentDate = Date()
+        val formattedDateTime:String = formatDateTime(currentDate)
+        reference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference()
+        var hashMap:HashMap<String,String> = HashMap()
+        hashMap.put("senderId",senderId);
+        hashMap.put("receiverId",receiverId);
+        hashMap.put("type",type);
+        hashMap.put("message",message);
+        hashMap.put("amount",amount);
+        hashMap.put("status",paymentState);
+        hashMap.put("date",formattedDateTime);
 
+        reference!!.child("Chat").push().setValue(hashMap)
+    }
     fun readMessages(senderId:String,receiverId: String): LiveData<ArrayList<Chat>>{
       return userRepository.readMessage(senderId,receiverId)
     }
-
     fun updateState() {
-        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(firebase.uid)
-
+        val databaseReference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(utilities.getFirebase().uid)
         val updates = hashMapOf<String, Any>("state" to  "online")
         databaseReference!!.updateChildren(updates)
 

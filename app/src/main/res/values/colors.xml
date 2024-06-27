@@ -18,6 +18,7 @@
     <color name="lines">#3A3A3A</color>
 
 
+    <color name="transparent">#00000000</color>
     <color name="colorLeftItem">#E7E7E7</color>
     <color name="colorRightItem">#4F64F8</color>
 </resources>

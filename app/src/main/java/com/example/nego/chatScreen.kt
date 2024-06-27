@@ -1,10 +1,15 @@
 package com.example.nego
 
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -29,33 +34,31 @@ import com.google.firebase.firestore.auth.User
 
 class chatScreen : AppCompatActivity() {
     private lateinit var ChatScreenViewModel: chatScreenViewModel
+    private val utilities = Utilities()
     private lateinit var chatAdapter: ChatAdapter
     var firebaseUser:FirebaseUser? =null
     var reference:DatabaseReference? =null
+
     private lateinit var binding: ActivityChatScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         ChatScreenViewModel = ViewModelProvider(this).get(chatScreenViewModel::class.java)
-
-
         binding.chatscreenRV.layoutManager=LinearLayoutManager(this, RecyclerView.VERTICAL,false)
-
-
         ChatScreenViewModel.updateState()
 
+        var userid = intent.getStringExtra("UserId")
 
     binding.backbtn.setOnClickListener{
         onBackPressedDispatcher.onBackPressed()
     }
 
         var intent =getIntent()
-        var userid = intent.getStringExtra("UserId")
+
         Log.d(ContentValues.TAG, "onBindViewHolder Recived: "+userid)
 
-        firebaseUser = FirebaseAuth.getInstance().currentUser
+        firebaseUser = utilities.getFirebase()
         reference =FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("User").child(userid!!)
 
         reference!!.addValueEventListener(object : ValueEventListener{
@@ -84,7 +87,7 @@ class chatScreen : AppCompatActivity() {
 
 
 
-        ChatScreenViewModel.readMessages(firebaseUser!!.uid,userid).observe(this, { chatList ->
+        ChatScreenViewModel.readMessages(firebaseUser!!.uid, userid!!).observe(this, { chatList ->
 
             chatAdapter = ChatAdapter(this,chatList)
             binding.chatscreenRV.adapter = chatAdapter
@@ -104,13 +107,16 @@ class chatScreen : AppCompatActivity() {
             }
 
             else{
-                ChatScreenViewModel.sendMessage(firebaseUser!!.uid,userid,message)
+                ChatScreenViewModel.sendMessage(firebaseUser!!.uid, userid!!,message)
                 binding.messageET.text.clear()
             }
 
 
 
 
+        }
+        binding.requestPaymentButton.setOnClickListener{
+            showPaymentRequestPopup()
         }
 
     }
@@ -143,4 +149,39 @@ class chatScreen : AppCompatActivity() {
         databaseReference!!.updateChildren(updates)
 
     }
+
+    private fun showPaymentRequestPopup() {
+        val dialog = Dialog(this)
+        val view: View = LayoutInflater.from(this).inflate(R.layout.popup_payment_request, null)
+        dialog.setContentView(view)
+
+        val amountEditText: EditText = view.findViewById(R.id.amountEditText)
+        val messageEditText: EditText = view.findViewById(R.id.messageEditText)
+        val cancelButton: Button = view.findViewById(R.id.cancelButton)
+        val requestPaymentButton: Button = view.findViewById(R.id.requestPaymentButton)
+
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        requestPaymentButton.setOnClickListener {
+            // Handle payment request logic here
+            val amount = amountEditText.text.toString()
+            val message = messageEditText.text.toString()
+            var userid = intent.getStringExtra("UserId")
+
+            if (userid != null) {
+                ChatScreenViewModel.sendPaymentMessage(firebaseUser!!.uid,userid,message,amount)
+            }
+
+            binding.messageET.text.clear()
+            // Perform your action with the amount and message
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+
 }
