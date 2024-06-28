@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.nego.databinding.ActivitySignupBinding
@@ -55,11 +55,12 @@ class signup : AppCompatActivity() {
             val name = binding.nameET.text.toString()
             val email = binding.userET.text.toString()
             val password = binding.passwordET.text.toString()
+            val phone = binding.numberET.text.toString()
 
 
 
 
-        if (validateFields(name,email,password)) {
+        if (validateFields(name,email,password,phone)) {
             if(icon!=null){
 
                 val uploader = FirebaseStorage()
@@ -71,10 +72,12 @@ class signup : AppCompatActivity() {
                             println("Image uploaded successfully. Download URL: $downloadUrl")
                             var profileIcon = downloadUrl
 
-                            loginViewModel.firebasesignup(name,email,password,profileIcon).observe(this@signup){Response->
+                            loginViewModel.firebasesignup(name,email,password,profileIcon,phone).observe(this@signup){Response->
                                 if (Response != null) {
                                     Toast.makeText(this@signup, Response.toString(),Toast.LENGTH_SHORT).show();
                                     binding.signBtn.isEnabled = true
+                                    startActivity(Intent(this@signup, login::class.java))
+
                                 }
                                 else{
                                     Toast.makeText(this@signup, "Signup Failed",Toast.LENGTH_SHORT).show();
@@ -94,10 +97,17 @@ class signup : AppCompatActivity() {
 
             else{
                 val defaultImage=loginViewModel.getProfileImage();
-                loginViewModel.firebasesignup(name,email,password,defaultImage).observe(this@signup){Response->
+                loginViewModel.firebasesignup(
+                    name,
+                    email,
+                    password,
+                    defaultImage,
+                    phone
+                ).observe(this@signup){ Response->
                     if (Response != null) {
                         Toast.makeText(this@signup, Response.toString(),Toast.LENGTH_SHORT).show();
                         binding.signBtn.isEnabled = true
+                        startActivity(Intent(this@signup, login::class.java))
                     }
                     else{
                         Toast.makeText(this@signup, "Signup Failed",Toast.LENGTH_SHORT).show();
@@ -139,12 +149,14 @@ class signup : AppCompatActivity() {
     }
 
 
-    private fun validateFields(name :String ,email:String,password:String): Boolean {
+    private fun validateFields(name: String, email: String, password: String, phone: String): Boolean {
 
         if (name.isEmpty()) {
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show()
             return false
         }
+
+
 
         if (email.isEmpty()) {
             Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
@@ -159,6 +171,15 @@ class signup : AppCompatActivity() {
             return false
         } else if (password.length < 6) {
             Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (phone.isEmpty()) {
+            Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        else if(phone.length != 10 ){
+            Toast.makeText(this, "Number should be of 10 digit", Toast.LENGTH_SHORT).show()
             return false
         }
         return true

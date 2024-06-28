@@ -1,6 +1,7 @@
 package com.example.nego.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,9 +59,9 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
                 holder.amountTextView.text = chat.amount
                 holder.messageTextView.text = chat.message
                 holder.dateTextView.text = chat.date
-//                holder.payButton.setOnClickListener {
-//                    // Handle pay button click
-//                }
+                holder.paybtn.setOnClickListener {
+                    Log.d("value" , chat.amount.toString())
+                }
             }
         }
     }
@@ -78,6 +79,7 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
         val amountTextView: TextView = view.findViewById(R.id.amountTextView)
         val messageTextView: TextView = view.findViewById(R.id.messageTextView)
         val dateTextView: TextView = view.findViewById(R.id.dateTextView)
+        val paybtn: TextView = view.findViewById(R.id.payButton)
 
     }
 

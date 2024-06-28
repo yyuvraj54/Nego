@@ -53,10 +53,12 @@ class Profile : Fragment() {
                 val name = user.userName
                 val userId = user.userId
                 val profileIconUrl = user.profileImage
+                val phone = user.phone
 
 
             try {
                 binding.profileName.text = name
+                binding.profilePhone.text = "91+ $phone"
                 val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
 
                 binding.profileEmail.text = firebase.email

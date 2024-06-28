@@ -31,10 +31,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.auth.User
+import dev.shreyaspatil.easyupipayment.EasyUpiPayment
 
 class chatScreen : AppCompatActivity() {
     private lateinit var ChatScreenViewModel: chatScreenViewModel
     private val utilities = Utilities()
+    public  lateinit var  phone:String
     private lateinit var chatAdapter: ChatAdapter
     var firebaseUser:FirebaseUser? =null
     var reference:DatabaseReference? =null
@@ -50,11 +52,16 @@ class chatScreen : AppCompatActivity() {
 
         var userid = intent.getStringExtra("UserId")
 
+
     binding.backbtn.setOnClickListener{
         onBackPressedDispatcher.onBackPressed()
     }
 
-        var intent =getIntent()
+
+        val sharedPrefsUtil = SharedPrefsUtil(this)
+        phone = sharedPrefsUtil.getPhone().toString()
+
+
 
         Log.d(ContentValues.TAG, "onBindViewHolder Recived: "+userid)
 
@@ -68,6 +75,7 @@ class chatScreen : AppCompatActivity() {
 
                 binding.chatScreenState.text=user!!.state
                binding.chatScreenName.text =user!!.userName
+
                 if(user.profileImage==""){
                     binding.chatScreenProfileIcon.setImageResource(R.drawable.avtar)
                 }
@@ -166,12 +174,14 @@ class chatScreen : AppCompatActivity() {
 
         requestPaymentButton.setOnClickListener {
             // Handle payment request logic here
-            val amount = amountEditText.text.toString()
+            var amount = amountEditText.text.toString()
+            amount = "₹"+ amount
             val message = messageEditText.text.toString()
             var userid = intent.getStringExtra("UserId")
 
+
             if (userid != null) {
-                ChatScreenViewModel.sendPaymentMessage(firebaseUser!!.uid,userid,message,amount)
+                ChatScreenViewModel.sendPaymentMessage(firebaseUser!!.uid,userid,message,amount = amount,phone =  phone)
             }
 
             binding.messageET.text.clear()
@@ -184,4 +194,16 @@ class chatScreen : AppCompatActivity() {
 
 
 
+    fun paymentGatewayStart() {
+        val easyUpiPayment = EasyUpiPayment(this) {
+            this.payeeVpa = "example@upi"
+            this.payeeName = "Narendra Modi"
+            this.payeeMerchantCode = "12345"
+            this.transactionId = "T2020090212345"
+            this.transactionRefId = "T2020090212345"
+            this.description = "Description"
+            this.amount = "101.00"
+        }
+        easyUpiPayment.startPayment()
+    }
 }

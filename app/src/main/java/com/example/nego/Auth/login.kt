@@ -1,16 +1,12 @@
 package com.example.nego.Auth
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
-import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.nego.MainActivity
-import com.example.nego.R
 import com.example.nego.databinding.ActivityLoginBinding
 
 class login : AppCompatActivity() {
@@ -53,8 +49,10 @@ class login : AppCompatActivity() {
                     if(loginStatus=="Login Success"){
                         val icon = firebaseUserResult.icon!!
                         val username = firebaseUserResult.username!!
+                        val phone = firebaseUserResult.phone!!
                         val uid = firebaseUserResult.uid!!
-                        loginViewModel.saveLoginData(email,username,icon,uid, password)
+
+                        loginViewModel.saveLoginData(email,username,icon,uid, password,phone)
                         Toast.makeText(this, Response.toString(),Toast.LENGTH_LONG).show();
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)

@@ -16,12 +16,20 @@ class SharedPrefsUtil (context: Context) {
         return sharedPrefs.getBoolean("isLoggedIn", false)
     }
 
-    fun saveUserInfo(username: String,name:String,icon:String,id:String, password: String) {
+    fun saveUserInfo(
+        username: String,
+        name: String,
+        icon: String,
+        id: String,
+        password: String,
+        phone: String
+    ) {
         editor.putString("username", username)
         editor.putString("name", name)
         editor.putString("id", id)
         editor.putString("icon", icon)
         editor.putString("password", password)
+        editor.putString("phone", phone)
         editor.apply()
     }
 
@@ -44,12 +52,18 @@ class SharedPrefsUtil (context: Context) {
     }
 
 
+    fun getPhone(): String? {
+        return sharedPrefs.getString("phone", "")
+    }
+
+
     fun clearLoginInfo() {
         editor.remove("username")
         editor.remove("password")
         editor.remove("id")
         editor.remove("icon")
         editor.remove("name")
+        editor.remove("phone")
         editor.remove("isLoggedIn")
         editor.apply()
     }

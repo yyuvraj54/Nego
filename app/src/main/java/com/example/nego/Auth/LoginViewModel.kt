@@ -21,8 +21,15 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
 
 
 
-    fun saveLoginData(username: String,name:String,icon:String,id:String, password: String) {
-        sharedPrefsUtil.saveUserInfo(username, name,icon,id,password)
+    fun saveLoginData(
+        username: String,
+        name: String,
+        icon: String,
+        id: String,
+        password: String,
+        phone: String
+    ) {
+        sharedPrefsUtil.saveUserInfo(username, name,icon,id,password,phone)
         sharedPrefsUtil.saveLoginStatus(true)
     }
 
@@ -46,8 +53,8 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
 //        return userRepository.startSignup(name,email, password);
 //    }
 
-    fun firebasesignup(name:String,email: String, password: String,icon:String): LiveData<String> {
-        return userRepository.firebaseSignup(name,email, password, icon);
+    fun firebasesignup(name: String, email: String, password: String, icon: String, phone: String): LiveData<String> {
+        return userRepository.firebaseSignup(name,email, password, icon,phone);
     }
 
     fun firebaselogin(email: String, password: String): LiveData<Pair<UserRepository.FirebaseUserResult, String>> {

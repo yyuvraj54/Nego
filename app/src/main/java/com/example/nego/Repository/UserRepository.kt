@@ -13,7 +13,6 @@ import com.example.nego.Responses.SignupFailure
 import com.example.nego.Responses.SignupSuccess
 import com.example.nego.Responses.SuccessResponse
 import com.example.nego.Responses.User
-import com.example.nego.Retrofit.ApiChat
 import com.example.nego.Retrofit.RetrofitClient
 import com.example.nego.Retrofit.loginUser
 import com.example.nego.Retrofit.signupUser
@@ -35,7 +34,7 @@ class UserRepository {
     var userList = ArrayList<User>()
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
-    data class FirebaseUserResult(val icon: String?, val username: String?,val uid: String?)
+    data class FirebaseUserResult(val icon: String?, val username: String?,val uid: String?, val phone: String?)
     fun  startLogin(email: String, password: String): LiveData<ResponseBody?> {
 
             val userlogin = loginUser(email, password);
@@ -125,7 +124,7 @@ class UserRepository {
         return signupresponse;
 
     }
-    fun firebaseSignup(name:String,email: String,password: String,icon: String): LiveData<String> {
+    fun firebaseSignup(name: String, email: String, password: String, icon: String, phone: String): LiveData<String> {
         var authStatus:String="Signup process start";
         val loginResponse = MutableLiveData<String>();
         loginResponse.value=authStatus;
@@ -136,7 +135,7 @@ class UserRepository {
             if(it.isSuccessful){
                 var user: FirebaseUser?=auth.currentUser
                 var userId:String =user!!.uid
-                Log.d(TAG, "Success:"+name+" "+email+" "+password);
+                Log.d(TAG, "Success:"+name+" "+email+" "+password+" "+ phone);
 
                 databaseReference=FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User").child(userId)
 
@@ -144,6 +143,7 @@ class UserRepository {
                 var hasMap:HashMap<String,String> = HashMap()
                 hasMap.put("userId",userId)
                 hasMap.put("userName",name)
+                hasMap.put("phone",phone)
                 hasMap.put("profileImage",icon)
 
 
@@ -175,7 +175,7 @@ class UserRepository {
     fun firebaseLogin(usernaem:String,password:String): LiveData<Pair<FirebaseUserResult, String>> {
         var loginStatus:String="Signup process start";
         val loginResponse = MutableLiveData<Pair<FirebaseUserResult, String>>()
-        loginResponse.value = Pair(FirebaseUserResult(null, null,null), loginStatus)
+        loginResponse.value = Pair(FirebaseUserResult(null, null,null,null), loginStatus)
 
 
         auth=FirebaseAuth.getInstance()
@@ -193,19 +193,20 @@ class UserRepository {
                             // Retrieve the icon and username from the dataSnapshot
                             val icon = dataSnapshot.child("profileImage").getValue(String::class.java)
                             val username = dataSnapshot.child("userName").getValue(String::class.java)
+                            val phone = dataSnapshot.child("phone").getValue(String::class.java)
                             loginStatus="Login Success"
-                            loginResponse.value = Pair(FirebaseUserResult(icon, username,uid), loginStatus)
+                            loginResponse.value = Pair(FirebaseUserResult(icon, username,uid,phone), loginStatus)
 
                         } else {
                             loginStatus="Data does not exist"
-                            loginResponse.value = Pair(FirebaseUserResult(null, null, uid), loginStatus)
+                            loginResponse.value = Pair(FirebaseUserResult(null, null, uid , null), loginStatus)
 
                         }
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
                         loginStatus=databaseError.message.toString()
-                        loginResponse.value = Pair(FirebaseUserResult(null, null,null), loginStatus)
+                        loginResponse.value = Pair(FirebaseUserResult(null, null,null,null), loginStatus)
                     }
                 })
 
@@ -214,7 +215,7 @@ class UserRepository {
             else{
                 val exception = it.exception
                 loginStatus=exception?.message.toString()
-                loginResponse.value = Pair(FirebaseUserResult(null, null, null), loginStatus)
+                loginResponse.value = Pair(FirebaseUserResult(null, null, null,null), loginStatus)
             }
         }
 
@@ -264,9 +265,11 @@ class UserRepository {
                 userList.clear()
 
 
-               userList.add (User(profileImage = snapshot.child("profileImage").value.toString(),
+               userList.add (User(
+                   profileImage = snapshot.child("profileImage").value.toString(),
                     userName = snapshot.child("userName").value.toString(),
-                    userId = snapshot.child("userId").value.toString()))
+                    userId = snapshot.child("userId").value.toString(),
+                    phone = snapshot.child("phone").value.toString()))
 
                 userListLiveData.value = userList
             }

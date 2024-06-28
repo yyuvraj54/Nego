@@ -55,6 +55,7 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
 
             val intent= Intent(context,chatScreen::class.java)
             intent.putExtra("UserId",user.userId)
+            intent.putExtra("phone",user.phone)
             context?.startActivity(intent)
 
         }
