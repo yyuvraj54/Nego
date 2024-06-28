@@ -37,6 +37,8 @@ class chatScreen : AppCompatActivity() {
     private lateinit var ChatScreenViewModel: chatScreenViewModel
     private val utilities = Utilities()
     public  lateinit var  phone:String
+    public  lateinit var  user:String
+    public  lateinit var  upiId:String
     private lateinit var chatAdapter: ChatAdapter
     var firebaseUser:FirebaseUser? =null
     var reference:DatabaseReference? =null
@@ -53,6 +55,7 @@ class chatScreen : AppCompatActivity() {
         var userid = intent.getStringExtra("UserId")
 
 
+
     binding.backbtn.setOnClickListener{
         onBackPressedDispatcher.onBackPressed()
     }
@@ -60,6 +63,8 @@ class chatScreen : AppCompatActivity() {
 
         val sharedPrefsUtil = SharedPrefsUtil(this)
         phone = sharedPrefsUtil.getPhone().toString()
+        upiId = sharedPrefsUtil.getUpiId().toString()
+
 
 
 
@@ -179,9 +184,12 @@ class chatScreen : AppCompatActivity() {
             val message = messageEditText.text.toString()
             var userid = intent.getStringExtra("UserId")
 
+            val sharedPrefsUtil = SharedPrefsUtil(this)
+            user = sharedPrefsUtil.getName().toString()
+
 
             if (userid != null) {
-                ChatScreenViewModel.sendPaymentMessage(firebaseUser!!.uid,userid,message,amount = amount,phone =  phone)
+                ChatScreenViewModel.sendPaymentMessage(firebaseUser!!.uid,userid,message,amount = amount,phone =  phone, upiId = upiId, username = user)
             }
 
             binding.messageET.text.clear()

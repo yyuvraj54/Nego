@@ -22,12 +22,14 @@ class SharedPrefsUtil (context: Context) {
         icon: String,
         id: String,
         password: String,
-        phone: String
+        phone: String,
+        upiId: String,
     ) {
         editor.putString("username", username)
         editor.putString("name", name)
         editor.putString("id", id)
         editor.putString("icon", icon)
+        editor.putString("upiId", upiId)
         editor.putString("password", password)
         editor.putString("phone", phone)
         editor.apply()
@@ -51,6 +53,10 @@ class SharedPrefsUtil (context: Context) {
         return sharedPrefs.getString("icon", "")
     }
 
+    fun getUpiId(): String? {
+        return sharedPrefs.getString("upiId", "")
+    }
+
 
     fun getPhone(): String? {
         return sharedPrefs.getString("phone", "")
@@ -63,6 +69,7 @@ class SharedPrefsUtil (context: Context) {
         editor.remove("id")
         editor.remove("icon")
         editor.remove("name")
+        editor.remove("upiId")
         editor.remove("phone")
         editor.remove("isLoggedIn")
         editor.apply()

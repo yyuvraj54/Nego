@@ -45,7 +45,7 @@ class chatScreenViewModel(application: Application) :AndroidViewModel(applicatio
 //        reference!!.child(receiverId).child("Dates").child(senderId).push().setValue(hashMapdate)
 
     }
-    fun sendPaymentMessage(senderId:String,receiverId:String,message:String,amount:String,paymentState:String="-1" , type:String="paymentRequest", phone:String="null"){
+    fun sendPaymentMessage(senderId:String,receiverId:String,message:String,amount:String,paymentState:String="-1" , type:String="paymentRequest", phone:String="null", upiId:String="null",username:String="none"){
         val currentDate = Date()
         val formattedDateTime:String = formatDateTime(currentDate)
         reference = FirebaseDatabase.getInstance("https://nego-a7774-default-rtdb.asia-southeast1.firebasedatabase.app").getReference()
@@ -55,6 +55,8 @@ class chatScreenViewModel(application: Application) :AndroidViewModel(applicatio
         hashMap.put("type",type);
         hashMap.put("message",message);
         hashMap.put("amount",amount);
+        hashMap.put("upiId",upiId);
+        hashMap.put("username",username);
         hashMap.put("phone",phone);
         hashMap.put("status",paymentState);
         hashMap.put("date",formattedDateTime);

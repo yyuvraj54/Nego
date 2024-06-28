@@ -51,8 +51,10 @@ class login : AppCompatActivity() {
                         val username = firebaseUserResult.username!!
                         val phone = firebaseUserResult.phone!!
                         val uid = firebaseUserResult.uid!!
+                        val upiId = firebaseUserResult.upiId!!
 
-                        loginViewModel.saveLoginData(email,username,icon,uid, password,phone)
+
+                        loginViewModel.saveLoginData(email,username,icon,uid, password,phone,upiId)
                         Toast.makeText(this, Response.toString(),Toast.LENGTH_LONG).show();
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)

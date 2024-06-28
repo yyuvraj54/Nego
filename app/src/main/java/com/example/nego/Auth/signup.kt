@@ -56,11 +56,11 @@ class signup : AppCompatActivity() {
             val email = binding.userET.text.toString()
             val password = binding.passwordET.text.toString()
             val phone = binding.numberET.text.toString()
+            val upiId = binding.upiId.text.toString()
 
 
 
-
-        if (validateFields(name,email,password,phone)) {
+        if (validateFields(name,email,password,phone,upiId)) {
             if(icon!=null){
 
                 val uploader = FirebaseStorage()
@@ -72,7 +72,7 @@ class signup : AppCompatActivity() {
                             println("Image uploaded successfully. Download URL: $downloadUrl")
                             var profileIcon = downloadUrl
 
-                            loginViewModel.firebasesignup(name,email,password,profileIcon,phone).observe(this@signup){Response->
+                            loginViewModel.firebasesignup(name,email,password,profileIcon,phone=phone,upiId=upiId).observe(this@signup){Response->
                                 if (Response != null) {
                                     Toast.makeText(this@signup, Response.toString(),Toast.LENGTH_SHORT).show();
                                     binding.signBtn.isEnabled = true
@@ -102,7 +102,8 @@ class signup : AppCompatActivity() {
                     email,
                     password,
                     defaultImage,
-                    phone
+                    phone,
+                    upiId
                 ).observe(this@signup){ Response->
                     if (Response != null) {
                         Toast.makeText(this@signup, Response.toString(),Toast.LENGTH_SHORT).show();
@@ -149,7 +150,7 @@ class signup : AppCompatActivity() {
     }
 
 
-    private fun validateFields(name: String, email: String, password: String, phone: String): Boolean {
+    private fun validateFields(name: String, email: String, password: String, phone: String,upiId:String): Boolean {
 
         if (name.isEmpty()) {
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show()
@@ -182,6 +183,11 @@ class signup : AppCompatActivity() {
             Toast.makeText(this, "Number should be of 10 digit", Toast.LENGTH_SHORT).show()
             return false
         }
+        if (upiId.isEmpty()) {
+            Toast.makeText(this, "Please enter a upiID", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
         return true
     }
 

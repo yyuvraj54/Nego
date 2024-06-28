@@ -54,6 +54,8 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
             is MessageViewHolder -> {
                 holder.textUsername.text = chat.message
                 holder.datetext.text = chat.date
+
+
             }
             is PaymentViewHolder -> {
                 holder.amountTextView.text = chat.amount
@@ -61,6 +63,8 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
                 holder.dateTextView.text = chat.date
                 holder.paybtn.setOnClickListener {
                     Log.d("value" , chat.amount.toString())
+                    Log.d("value" , chat.upiId.toString())
+                    Log.d("value" , chat.username.toString())
                 }
             }
         }
