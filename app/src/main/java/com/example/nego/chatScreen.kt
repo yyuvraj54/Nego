@@ -3,6 +3,7 @@ package com.example.nego
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,11 +26,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.auth.User
 import dev.shreyaspatil.easyupipayment.EasyUpiPayment
+import dev.shreyaspatil.easyupipayment.listener.PaymentStatusListener
+import dev.shreyaspatil.easyupipayment.model.TransactionDetails
 import java.util.UUID
 
-class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener {
+class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener, PaymentStatusListener {
     private lateinit var ChatScreenViewModel: chatScreenViewModel
     private val utilities = Utilities()
     public  lateinit var  phone:String
@@ -55,6 +57,8 @@ class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener {
     binding.backbtn.setOnClickListener{
         onBackPressedDispatcher.onBackPressed()
     }
+
+
 
 
         val sharedPrefsUtil = SharedPrefsUtil(this)
@@ -205,19 +209,39 @@ class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener {
         return (10000..99999).random().toString()
     }
 
-    override fun onButtonClick(details: Chat) {
+    override fun onButtonClick(details: Chat, context: Context) {
 
-        Log.d(TAG, details.username+" "+details.amount+" "+details.message+" "+details.upiId)
-        val easyUpiPayment = EasyUpiPayment(this) {
-            this.payeeVpa = details.upiId
-            this.payeeName = details.username
-            this.payeeMerchantCode = generateRandomMerchantCode()
-            this.transactionId = generateRandomTransactionId()
-            this.transactionRefId = generateRandomTransactionId()
-            this.description = details.message
-            this.amount = formatAmount(details.amount.toString())
+        Log.d(TAG, details.username+" "+ details.amount+" "+ details.message+" "+ details.upiId)
+
+        try {
+            val easyUpiPayment = EasyUpiPayment(this) {
+                this.payeeVpa = details.upiId
+                this.payeeName = details.username
+                this.payeeMerchantCode = generateRandomMerchantCode()
+                this.transactionId = generateRandomTransactionId()
+                this.transactionRefId = generateRandomTransactionId()
+                this.description = details.message
+                this.amount = formatAmount(details.amount.toString())
+            }
+
+            easyUpiPayment.startPayment()
+            easyUpiPayment.setPaymentStatusListener(this)
+
         }
-        easyUpiPayment.startPayment()
+        catch (e: Exception ){
+            Toast.makeText(this, "Details of transaction was wrong",Toast.LENGTH_SHORT).show()
+            Log.d(TAG, e.toString())
+        }
+
+
+    }
+
+    override fun onTransactionCancelled() {
+        Toast.makeText(this, "Error while doing transaction please try again!",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onTransactionCompleted(transactionDetails: TransactionDetails) {
+        Toast.makeText(this, "Transaction Success",Toast.LENGTH_SHORT).show()
     }
 
 

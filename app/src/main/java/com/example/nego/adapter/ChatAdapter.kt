@@ -19,7 +19,7 @@ class ChatAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onButtonClick(chat: Chat)
+        fun onButtonClick(chat: Chat, context: Context)
     }
 
 
@@ -75,7 +75,7 @@ class ChatAdapter(
                     Log.d("value" , chat.amount.toString())
                     Log.d("value" , chat.upiId.toString())
                     Log.d("value" , chat.username.toString())
-                    listener.onButtonClick(chat)
+                    listener.onButtonClick(chat,context)
 
                 }
             }
