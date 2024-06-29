@@ -5,18 +5,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nego.R
 import com.example.nego.Responses.Chat
 import com.example.nego.Utilities
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class ChatAdapter(private val context: Context, private val chatList: ArrayList<Chat>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(
+    private val context: Context,
+    private val chatList: ArrayList<Chat>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onButtonClick(chat: Chat)
+    }
+
 
     private val utilities = Utilities()
     private val MESSAGE_TYPE_LEFT = 0
@@ -50,6 +55,7 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val chat = chatList[position]
 
+
         when (holder) {
             is MessageViewHolder -> {
                 holder.textUsername.text = chat.message
@@ -61,10 +67,16 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
                 holder.amountTextView.text = chat.amount
                 holder.messageTextView.text = chat.message
                 holder.dateTextView.text = chat.date
+
+
+
                 holder.paybtn.setOnClickListener {
+
                     Log.d("value" , chat.amount.toString())
                     Log.d("value" , chat.upiId.toString())
                     Log.d("value" , chat.username.toString())
+                    listener.onButtonClick(chat)
+
                 }
             }
         }
@@ -84,7 +96,6 @@ class ChatAdapter(private val context: Context, private val chatList: ArrayList<
         val messageTextView: TextView = view.findViewById(R.id.messageTextView)
         val dateTextView: TextView = view.findViewById(R.id.dateTextView)
         val paybtn: TextView = view.findViewById(R.id.payButton)
-
     }
 
     override fun getItemViewType(position: Int): Int {

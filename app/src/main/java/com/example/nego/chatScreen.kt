@@ -10,19 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.nego.Auth.LoginViewModel
 import com.example.nego.Responses.Chat
 import com.example.nego.adapter.ChatAdapter
-import com.example.nego.adapter.UserAdapter
 import com.example.nego.databinding.ActivityChatScreenBinding
-import com.example.nego.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -32,8 +27,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.auth.User
 import dev.shreyaspatil.easyupipayment.EasyUpiPayment
+import java.util.UUID
 
-class chatScreen : AppCompatActivity() {
+class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener {
     private lateinit var ChatScreenViewModel: chatScreenViewModel
     private val utilities = Utilities()
     public  lateinit var  phone:String
@@ -65,9 +61,6 @@ class chatScreen : AppCompatActivity() {
         phone = sharedPrefsUtil.getPhone().toString()
         upiId = sharedPrefsUtil.getUpiId().toString()
 
-
-
-
         Log.d(ContentValues.TAG, "onBindViewHolder Recived: "+userid)
 
         firebaseUser = utilities.getFirebase()
@@ -76,10 +69,8 @@ class chatScreen : AppCompatActivity() {
         reference!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user =snapshot.getValue(com.example.nego.Responses.User::class.java)
-
-
                 binding.chatScreenState.text=user!!.state
-               binding.chatScreenName.text =user!!.userName
+                binding.chatScreenName.text =user!!.userName
 
                 if(user.profileImage==""){
                     binding.chatScreenProfileIcon.setImageResource(R.drawable.avtar)
@@ -92,7 +83,7 @@ class chatScreen : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
@@ -102,7 +93,7 @@ class chatScreen : AppCompatActivity() {
 
         ChatScreenViewModel.readMessages(firebaseUser!!.uid, userid!!).observe(this, { chatList ->
 
-            chatAdapter = ChatAdapter(this,chatList)
+            chatAdapter = ChatAdapter(this,chatList,this)
             binding.chatscreenRV.adapter = chatAdapter
             chatAdapter.notifyDataSetChanged()
             binding.chatscreenRV.post {
@@ -200,18 +191,34 @@ class chatScreen : AppCompatActivity() {
         dialog.show()
     }
 
+    private fun formatAmount(amount: String): String {
+        val cleanedAmount = amount.replace("₹", "").trim()
+        val amountAsDouble = cleanedAmount.toDoubleOrNull() ?: 0.0
+        return String.format("%.2f", amountAsDouble)
+    }
 
+    fun generateRandomTransactionId(): String {
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 15)
+    }
 
-    fun paymentGatewayStart() {
+    fun generateRandomMerchantCode(): String {
+        return (10000..99999).random().toString()
+    }
+
+    override fun onButtonClick(details: Chat) {
+
+        Log.d(TAG, details.username+" "+details.amount+" "+details.message+" "+details.upiId)
         val easyUpiPayment = EasyUpiPayment(this) {
-            this.payeeVpa = "example@upi"
-            this.payeeName = "Narendra Modi"
-            this.payeeMerchantCode = "12345"
-            this.transactionId = "T2020090212345"
-            this.transactionRefId = "T2020090212345"
-            this.description = "Description"
-            this.amount = "101.00"
+            this.payeeVpa = details.upiId
+            this.payeeName = details.username
+            this.payeeMerchantCode = generateRandomMerchantCode()
+            this.transactionId = generateRandomTransactionId()
+            this.transactionRefId = generateRandomTransactionId()
+            this.description = details.message
+            this.amount = formatAmount(details.amount.toString())
         }
         easyUpiPayment.startPayment()
     }
+
+
 }
