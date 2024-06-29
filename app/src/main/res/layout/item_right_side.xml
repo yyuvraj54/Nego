@@ -1,64 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:backgroundTint="@color/Transparent"
         android:layout_width="match_parent"
-        android:elevation="0dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:layout_marginLeft="30dp"
-            android:padding="10dp"
-            android:orientation="horizontal">
+            android:background="@drawable/item_right_side_background"
+            android:padding="12dp"
+            android:orientation="vertical">
 
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/message"
                 android:layout_width="wrap_content"
-                android:background="@drawable/item_right_side_background"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="This is a sample message..."
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/monasans_black"
+                android:textStyle="normal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                tools:ignore="HardcodedText" />
 
-                <TextView
-                    android:id="@+id/message"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-
-                    android:padding="5dp"
-                    android:text="Message..."
-                    android:fontFamily="@font/monasans_black"
-                    android:textFontWeight="400"
-                    android:textColor="@color/white"
-                    android:layout_marginHorizontal="5dp"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:fontFamily="@font/monasans_black"
-                    android:gravity="right"
-                    android:text="today"
-                    android:textColor="@color/white"
-                    android:textSize="10dp"
-                    tools:ignore="TextSizeCheck" />
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textColor="#464646"
+                android:textSize="12sp"
+                android:fontFamily="@font/monasans_black"
+                android:textStyle="normal"
+                android:gravity="end"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

@@ -4,141 +4,139 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".chatScreen">
 
+    <!-- Background ImageView -->
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/grid"
+        android:scaleType="centerCrop"
+        android:alpha="0.3" /> <!-- Adjust alpha as needed to make it less prominent -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatscreenRV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/relaout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:stackFromEnd="true"
+        tools:listitem="@layout/chat_item" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:backgroundTint="#4299DF"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#236092"
         android:elevation="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <ImageButton
                 android:id="@+id/backbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/Themecolor"
-                android:src="@drawable/baseline_keyboard_backspace_24"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/round_background"
+                android:contentDescription="@string/back_button"
+                android:src="@drawable/back_ic"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-
                 android:id="@+id/chatScreenProfileIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:src="@drawable/avtar"
-                app:layout_constraintBottom_toTopOf="@+id/nameET"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.891" />
+                app:civ_border_color="@color/black"
+                app:civ_border_width="1dp"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/chatScreenName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/monasans_black"
-                    android:textStyle="bold"
                     android:text="Name"
+                    android:textSize="18sp"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/chatScreenState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/mona_sans"
-                    android:text=""
-                    android:textColor="@color/white" />
+                    android:text="Online"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatscreenRV"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/relaout"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.0"
-        app:stackFromEnd="true"
-        tools:layout_editor_absoluteX="0dp" />
-
     <LinearLayout
         android:id="@+id/relaout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_background_send_message"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
         <EditText
             android:id="@+id/messageET"
-            android:layout_width="match_parent"
-            android:layout_weight="15"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:background="@color/white"
-            android:ems="10"
-            android:fontFamily="@font/poppins"
-            android:textStyle="normal"
-            android:textFontWeight="400"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/round_background"
             android:hint="Enter Message..."
-            android:inputType="textMultiLine"
             android:minHeight="48dp"
-            android:padding="5dp" />
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/requestPaymentButton"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_gravity="center"
-            android:layout_weight="3"
-            android:background="@color/Transparent"
-            android:padding="15dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/rupeeicon"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            android:background="@drawable/round_background"
+            android:contentDescription="@string/request_payment_button"
+            android:scaleType="fitXY"
+            android:src="@drawable/rupee_icon"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/sendmessageBtn"
-            android:layout_width="60dp"
-            android:scaleType="fitCenter"
-            android:layout_weight="1"
-            android:layout_height="60dp"
-            android:background="@color/white"
-android:layout_marginRight="10dp"
-            android:src="@drawable/sendbtn"
-            tools:ignore="SpeakableTextPresentCheck" />
-    </LinearLayout>
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/round_background"
+            android:contentDescription="@string/send_message_button"
+            android:scaleType="fitXY"
+            android:src="@drawable/send_icon"
+            tools:ignore="TouchTargetSizeCheck" />
 
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

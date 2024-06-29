@@ -32,7 +32,6 @@
             android:background="@drawable/rounded_entry"
             android:hint="Search..."
             android:textColor="#D6D5D5"
-            android:fontFamily="@font/gilroybold"
             android:textFontWeight="200"/>
 
 
@@ -47,6 +46,7 @@
             android:id="@+id/chatrRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:layout_marginVertical="10dp"
             tools:listitem="@layout/chat_item" />
 

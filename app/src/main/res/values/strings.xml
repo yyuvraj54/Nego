@@ -7,7 +7,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Profile</string>
 
-    <string name="menu_home">Profile</string>
+    <string name="menu_home">Account Manager</string>
     <string name="menu_chats">Chats</string>
     <string name="menu_slideshow">Google PALM</string>
+    <string name="back_button">back\n</string>
+    <string name="request_payment_button">Payment Btn</string>
+    <string name="send_message_button">Send</string>
 </resources>
