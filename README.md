@@ -25,6 +25,15 @@ Experience the seamless integration of real-time communication and hassle-free m
 
 <br>
 
+## App Download and Design
+
+- **Download the App**
+  - ![Download App](https://img.icons8.com/ios-filled/16/000000/download.png) [Download Here](https://mega.nz/file/WI9BzTQB#D_lwOxg8kpgtjgkpjRyzxQ0JOkp8NI6eNtufwBITAKE)
+
+- **Design Preview**
+  - View the design on Figma: [Design Preview](https://www.figma.com/design/bZi6ts2go0C1sCURGBbkyN/Untitled?node-id=0-1&t=9ba6VlD3owb1YWr5-1)
+
+
 ## Features
 
 - ![chat](https://img.icons8.com/ios-filled/16/000000/chat.png) **Real-time chatting with users**
@@ -56,6 +65,7 @@ Experience the seamless integration of real-time communication and hassle-free m
 ## Screenshots📲
 
 <div style="overflow-x: auto; white-space: nowrap;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/28b8f83e-5127-4e77-8b16-22b478d81063" alt="Screenshot -1" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
     <img src="https://github.com/yyuvraj54/Nego/assets/30363687/33168594-58c1-42f2-8330-438fbefda24b" alt="Screenshot 0" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
     <img src="https://github.com/yyuvraj54/Nego/assets/30363687/90b25dd1-caa8-44c8-a91f-75d6327265ab" alt="Screenshot 1" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
     <img src="https://github.com/yyuvraj54/Nego/assets/30363687/83d62760-921d-40dd-ba13-588245a8884a" alt="Screenshot 2" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
