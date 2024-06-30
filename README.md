@@ -41,8 +41,8 @@ Experience the seamless integration of real-time communication and hassle-free m
 ## Tech Stack
 
 - Real-time chatting
-- UPI payments
 - Google Palm API for chatting
+- EasyUpiPayment-Android (UpiPayment)
 - Android
 - Kotlin
 - Service
@@ -54,7 +54,6 @@ Experience the seamless integration of real-time communication and hassle-free m
 - Glide
 
 ## Screenshots📲
-## Screenshots
 
 <div style="overflow-x: auto; white-space: nowrap;">
     <img src="https://github.com/yyuvraj54/Nego/assets/30363687/33168594-58c1-42f2-8330-438fbefda24b" alt="Screenshot 1" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
