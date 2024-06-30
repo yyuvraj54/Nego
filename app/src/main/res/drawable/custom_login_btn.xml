@@ -1,0 +1,17 @@
+<!-- button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="8dp" /> <!-- Adjust corner radius as needed -->
+    <gradient
+        android:startColor="#ACB0EC"
+        android:endColor="#858BE5"
+        android:angle="135" /> <!-- Adjust colors as needed -->
+    <stroke
+        android:width="1dp"
+        android:color="#3598E6" /> <!-- Adjust stroke color and width as needed -->
+    <padding
+        android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp" /> <!-- Adjust padding as needed -->
+</shape>

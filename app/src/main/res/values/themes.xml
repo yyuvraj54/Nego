@@ -22,4 +22,31 @@
     <style name="Theme.Nego.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Nego.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Customize hint color -->
+        <item name="android:textColorHint">#808080</item>
+        <!-- Customize box stroke color -->
+        <item name="boxStrokeColor">#C0C0C0</item>
+        <!-- Customize box stroke width -->
+        <item name="boxStrokeWidth">2dp</item>
+        <!-- Customize box corner radius -->
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <!-- Customize error text appearance -->
+        <item name="errorTextAppearance">@style/ErrorAppearance</item>
+    </style>
+
+    <style name="ErrorAppearance" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+
+
 </resources>

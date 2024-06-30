@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.nego.R
@@ -47,6 +48,11 @@ class UserAdapter(private val context: Context?, private val userList:ArrayList<
                     .into(holder.imgUser)
             }
             holder.State.text = user.state
+            if (user.state == "offline") {
+                holder.State.setTextColor(ContextCompat.getColor(context!!, R.color.black)) // Change to your desired offline color
+            } else {
+                holder.State.setTextColor(ContextCompat.getColor(context!!, R.color.green))
+            }
 
 
 

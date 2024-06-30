@@ -13,4 +13,6 @@
     <string name="back_button">back\n</string>
     <string name="request_payment_button">Payment Btn</string>
     <string name="send_message_button">Send</string>
+
+
 </resources>

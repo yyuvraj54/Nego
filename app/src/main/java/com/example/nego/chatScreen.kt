@@ -28,10 +28,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import dev.shreyaspatil.easyupipayment.EasyUpiPayment
 import dev.shreyaspatil.easyupipayment.listener.PaymentStatusListener
+import dev.shreyaspatil.easyupipayment.model.PaymentApp
 import dev.shreyaspatil.easyupipayment.model.TransactionDetails
 import java.util.UUID
 
-class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener, PaymentStatusListener {
+class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener {
     private lateinit var ChatScreenViewModel: chatScreenViewModel
     private val utilities = Utilities()
     public  lateinit var  phone:String
@@ -213,36 +214,22 @@ class chatScreen : AppCompatActivity(),ChatAdapter.OnItemClickListener, PaymentS
 
         Log.d(TAG, details.username+" "+ details.amount+" "+ details.message+" "+ details.upiId)
 
-        try {
-            val easyUpiPayment = EasyUpiPayment(this) {
-                this.payeeVpa = details.upiId
-                this.payeeName = details.username
-                this.payeeMerchantCode = generateRandomMerchantCode()
-                this.transactionId = generateRandomTransactionId()
-                this.transactionRefId = generateRandomTransactionId()
-                this.description = details.message
-                this.amount = formatAmount(details.amount.toString())
+
+            val easyUpiPayment = EasyUpiPayment(this@chatScreen) {
+                payeeVpa = details.upiId.toString()
+                paymentApp = PaymentApp.ALL
+                payeeName = details.username.toString()
+                payeeMerchantCode = generateRandomMerchantCode()
+                transactionId = generateRandomTransactionId()
+                transactionRefId = generateRandomTransactionId().toString()
+                description = details.message.toString()
+                amount = formatAmount(details.amount.toString())
             }
 
             easyUpiPayment.startPayment()
-            easyUpiPayment.setPaymentStatusListener(this)
-
-        }
-        catch (e: Exception ){
-            Toast.makeText(this, "Details of transaction was wrong",Toast.LENGTH_SHORT).show()
-            Log.d(TAG, e.toString())
-        }
-
 
     }
 
-    override fun onTransactionCancelled() {
-        Toast.makeText(this, "Error while doing transaction please try again!",Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onTransactionCompleted(transactionDetails: TransactionDetails) {
-        Toast.makeText(this, "Transaction Success",Toast.LENGTH_SHORT).show()
-    }
 
 
 }

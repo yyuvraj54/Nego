@@ -62,7 +62,8 @@
             android:gravity="right"
             android:paddingEnd="20dp"
             android:paddingBottom="25dp"
-            android:text="Date" />
+            android:text="Date"
+            android:textStyle="bold|italic" />
 
 
     </LinearLayout>
