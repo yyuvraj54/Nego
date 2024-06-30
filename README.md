@@ -56,8 +56,9 @@ Experience the seamless integration of real-time communication and hassle-free m
 ## Screenshots📲
 
 <div style="overflow-x: auto; white-space: nowrap;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/33168594-58c1-42f2-8330-438fbefda24b" alt="Screenshot 1" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/90b25dd1-caa8-44c8-a91f-75d6327265ab" alt="Screenshot 2" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/33168594-58c1-42f2-8330-438fbefda24b" alt="Screenshot 0" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/90b25dd1-caa8-44c8-a91f-75d6327265ab" alt="Screenshot 1" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/83d62760-921d-40dd-ba13-588245a8884a" alt="Screenshot 2" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
     <img src="https://github.com/yyuvraj54/Nego/assets/30363687/1d0fa136-0707-4839-87ad-8188242fddf1" alt="Screenshot 3" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
     <img src="https://github.com/yyuvraj54/Nego/assets/30363687/fd8dcdc9-f78e-4e50-b63f-15e88e28db9e" alt="Screenshot 4" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
     <img src="https://github.com/yyuvraj54/Nego/assets/30363687/348b7545-0d52-43b0-9197-dd864735b944" alt="Screenshot 5" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
