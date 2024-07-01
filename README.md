@@ -54,6 +54,7 @@ Experience the seamless integration of real-time communication and hassle-free m
 - EasyUpiPayment-Android (UpiPayment)
 - Android
 - Kotlin
+- XML
 - Service
 - MVVM (Model-View-ViewModel)
 - Retrofit
