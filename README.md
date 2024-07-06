@@ -66,18 +66,18 @@ Experience the seamless integration of real-time communication and hassle-free m
 ## Screenshots📲
 
 <div style="overflow-x: auto; white-space: nowrap;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/28b8f83e-5127-4e77-8b16-22b478d81063" alt="Screenshot -1" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/90b25dd1-caa8-44c8-a91f-75d6327265ab" alt="Screenshot 1" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/83d62760-921d-40dd-ba13-588245a8884a" alt="Screenshot 2" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/1d0fa136-0707-4839-87ad-8188242fddf1" alt="Screenshot 3" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/33168594-58c1-42f2-8330-438fbefda24b" alt="Screenshot 0" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/fd8dcdc9-f78e-4e50-b63f-15e88e28db9e" alt="Screenshot 4" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/348b7545-0d52-43b0-9197-dd864735b944" alt="Screenshot 5" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/50ed32ac-8915-45ce-be98-5b97e721c8b6" alt="Screenshot 6" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/e028778d-ad37-406e-b59e-f852207c6559" alt="Screenshot 7" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/ed62d9a8-5ff3-4380-971e-dff1a11a1267" alt="Screenshot 8" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/a02c8fdc-b084-4a55-95ab-ce0980902213" alt="Screenshot 9" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
-    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/343d1acb-2c0f-4758-84a5-5aaf4ab757ab" alt="Screenshot 10" style="max-width: 100%; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/28b8f83e-5127-4e77-8b16-22b478d81063" alt="Screenshot -1" style="width: 100%; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/90b25dd1-caa8-44c8-a91f-75d6327265ab" alt="Screenshot 1" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/83d62760-921d-40dd-ba13-588245a8884a" alt="Screenshot 2" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/1d0fa136-0707-4839-87ad-8188242fddf1" alt="Screenshot 3" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/fd8dcdc9-f78e-4e50-b63f-15e88e28db9e" alt="Screenshot 4" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/33168594-58c1-42f2-8330-438fbefda24b" alt="Screenshot 0" style="width: 100%; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/348b7545-0d52-43b0-9197-dd864735b944" alt="Screenshot 5" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/50ed32ac-8915-45ce-be98-5b97e721c8b6" alt="Screenshot 6" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/e028778d-ad37-406e-b59e-f852207c6559" alt="Screenshot 7" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/ed62d9a8-5ff3-4380-971e-dff1a11a1267" alt="Screenshot 8" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/a02c8fdc-b084-4a55-95ab-ce0980902213" alt="Screenshot 9" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
+    <img src="https://github.com/yyuvraj54/Nego/assets/30363687/343d1acb-2c0f-4758-84a5-5aaf4ab757ab" alt="Screenshot 10" style="width: 200px; height: auto; display: inline-block; margin-right: 10px;">
  
 </div>
 
